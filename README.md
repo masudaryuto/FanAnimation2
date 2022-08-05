@@ -6,5 +6,5 @@
 
 <img width="362" alt="plan" src="https://user-images.githubusercontent.com/68851544/183114287-260c060d-82d5-47f6-967a-83d74e34ed72.png">
 
-<img width="362" alt="plan" src="https://user-images.githubusercontent.com/68851544/183114307-7f882de0-f808-441f-aecc-423e1805dcf7.png">
+<img width="500" alt="plan" src="https://user-images.githubusercontent.com/68851544/183114307-7f882de0-f808-441f-aecc-423e1805dcf7.png">
 
