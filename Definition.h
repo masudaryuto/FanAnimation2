@@ -42,8 +42,9 @@ typedef struct view
 	Point* point;
 	int power;
 	int sound;
+	int windowid;
 
-	void (*createFan)(void);
+	void (*createFan)(struct view*);
 	void (*createBell)(struct view*);
 	void (*setModel)(struct view*);
 	void (*setController)(struct view*);
@@ -59,10 +60,12 @@ typedef struct controller
 	Point* point;
 	double x;
 	double y;
+	hgevent* event;
 
 	Point (*getPointOfController)(struct controller);
 	void (*setPointOfController)(struct controller);
 	void (*judgeButton)(struct controller);
+	void (*updateEvent)(struct controller);
 
 } Controller;
 
@@ -78,7 +81,7 @@ double getSoundDate(Model*);
 
 /*View*/
 View* newView(Controller*, Model*);
-void createFan(void);
+void createFan(View*);
 void createBell(View*);
 void setModel(View*);
 void setController(View*);
@@ -92,7 +95,7 @@ Controller* newController(void);
 Point getPointOfController(Controller*);
 void setPointOfController(Controller*);
 void judgeButton(Controller*);
-
+void updateEvent(Controller*);
 
 
 
@@ -154,7 +157,7 @@ typedef struct bell{
 /*扇風機*/
 Fan fanSetup(double, double, double, double, double, double, int, int, int, double, double, int);
 void stringDraw(int, Fan);
-void fan_blade(int, Fan, Bell);
+void fan_blade(int, Fan);
 void fan_body(Fan);
 void fan_cover(int, Fan);
 void wide_bell_Draw(int, Bell);

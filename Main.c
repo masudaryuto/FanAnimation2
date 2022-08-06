@@ -8,11 +8,13 @@ int main(void){
 	Controller* aController = newController();
 	Model* aModel = newModel(aController);
 	View* aView = newView(aController, aModel);
-	(*aView).createFan();
+	(*aView).createFan(aView);
+	(*aView).createBell(aView);
+	
 
 	while(1){
-	
-		break;
+		
+		(*aController).updateEvent(*aController);
 
 	}
     HgGetChar();

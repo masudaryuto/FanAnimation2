@@ -184,10 +184,8 @@ void fan_cover(int fancoverlayerid, Fan fan){
 }
 
 //羽の回転描写
-void fan_blade(int bladelayerid, Fan fan, Bell bell){
+void fan_blade(int bladelayerid, Fan fan){
 
-    //扇風機が止まったら、flag=1にして、扇風機か風鈴側を向いている時に、風鈴の描写をとめたい。
-    bell.bell_flag = 0;
     //M_PI/100刻みで回る
     double blade_theta = M_PI / 100;
     //時差(fan.counterの時間を進めたり、遅らせたりする事で、羽を描く事ができる)
