@@ -19,7 +19,9 @@ MODULES	= \
 	$(PROGRAM) \
 	Model \
 	View \
-	Controller
+	Controller \
+	Fan \
+	Bell
 
 SOURCES	= $(shell for each in `echo $(MODULES)` ; do echo $${each}.c ; done)
 OBJECTS	= $(shell for each in `echo $(MODULES)` ; do echo $${each}.o ; done)

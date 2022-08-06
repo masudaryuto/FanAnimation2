@@ -4,9 +4,11 @@
 * 扇風機と風鈴のアニメーションを作成します。
 */
 int main(void){
-
-	View* aView = newView();
-	(*aView).createFan(aView);
+	//イベント発生
+	Controller* aController = newController();
+	Model* aModel = newModel(aController);
+	View* aView = newView(aController, aModel);
+	(*aView).createFan();
 
 	while(1){
 	
@@ -17,4 +19,3 @@ int main(void){
     HgClose();
 	return EXIT_SUCCESS;
 }
-
