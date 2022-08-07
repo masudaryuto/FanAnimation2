@@ -222,7 +222,7 @@ void fan_cover(Fan* this, int fancoverlayerid){
 
 //羽の回転描写
 void fan_blade(Fan* this, int bladelayerid){
-    puts("FF");
+
     //M_PI/100刻みで回る
     double blade_theta = M_PI / 100;
     //時差(fan.counterの時間を進めたり、遅らせたりする事で、羽を描く事ができる)
@@ -259,7 +259,7 @@ void fan_blade(Fan* this, int bladelayerid){
     double blade_x4[4] = {(*this).fancircle_x, (*this).fancircle_x+rotation_x4[0], (*this).fancircle_x+rotation_x4[1], (*this).fancircle_x};
     double blade_y4[4] = {(*this).fancircle_y, (*this).fancircle_y+rotation_y4[0], (*this).fancircle_y+rotation_y4[1], (*this).fancircle_y };
 
-    printf("%f\n", blade_x1[0]);
+    //printf("%f\n", blade_x1[0]);
     HgLClear(bladelayerid);
     //fanの羽の描写
     HgWSetFillColor(bladelayerid, HG_DGRAY);

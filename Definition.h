@@ -73,7 +73,7 @@ typedef struct bell{
 	void (*bellSetup)(struct bell*);
 	double (*bell_rotation_x)(double, double, int);
 	double (*bell_rotation_y)(double, double, int);
-	void (*wide_bell_Draw)(int, struct bell*);
+	void (*wide_bell_Draw)(struct bell*, int);
 	void (*move_bell)(int, Fan*, struct bell*);
 
 
@@ -94,7 +94,7 @@ Bell* newBell(void);
 void bellSetup(Bell*);
 double bell_rotation_x(double, double, int);
 double bell_rotation_y(double, double, int);
-void wide_bell_Draw(int, Bell*);
+void wide_bell_Draw(Bell*, int);
 void move_bell(int, Fan*, Bell*);
 
 
@@ -125,9 +125,10 @@ typedef struct view
 	int power;
 	int sound;
 	int windowid;
+	int bladelayerid;
 
-	
 	//Fan* fan;
+	
 	//Bell* bell;
 	
 
@@ -154,7 +155,6 @@ typedef struct controller
 	void (*setPointOfController)(struct controller*);
 	void (*judgeButton)(struct controller*);
 	void (*updateEvent)(struct controller*);
-
 
 } Controller;
 

@@ -9,15 +9,18 @@ View* newView(Controller* aController, Model* aModel){
 	aPoint = malloc(sizeof(Point));
 	if (aPoint == NULL) exit(EXIT_FAILURE);
 
+
 	/*
 	Fan* aFan = NULL;
 	aFan = malloc(sizeof(Fan));
 	if (aFan == NULL) exit(EXIT_FAILURE);
-
+	(*this).fan = aFan;
+	aFan = malloc(sizeof(Fan));
+	if (aFan == NULL) exit(EXIT_FAILURE);
+	(*this).fan = aFan;
 	Bell* aBell = NULL;
 	aBell = malloc(sizeof(Bell));
 	if (aBell == NULL) exit(EXIT_FAILURE);
-	(*this).fan = NULL;
 	(*this).bell = NULL;
 	(*this).fan = NULL;
 	(*this).bell = NULL;
@@ -30,6 +33,7 @@ View* newView(Controller* aController, Model* aModel){
 	(*this).power = 0;
 	(*this).sound = 0;
 	(*this).windowid = 0;
+	(*this).bladelayerid = 0;
 
 	(*this).createFan = &createFan;
 	(*this).createBell = &createBell;
@@ -41,6 +45,7 @@ View* newView(Controller* aController, Model* aModel){
 	(*this).soundBell = &soundBell;
 	(*this).processJob = &processJob;
 
+
 	return this;
 }
 
@@ -50,7 +55,10 @@ void processJob(View* this){
 	
 	printf("x=%5.2f, y=%5.2f\n", (*aPoint).x, (*aPoint).y);
 	
-	//fan_blade(bladelayerid, fan, bell);
+	//Fan* aFan = (*this).fan;
+	//Fan* aFan = 
+	//(*aFan).fan_blade(aFan, (*this).bladelayerid);
+
 	return;
 }
 
@@ -67,7 +75,7 @@ void createFan(View* this){
 	(*this).windowid = HgWOpen(300, 100, WINDOWSIZEx, WINDOWSIZEy);
 	
     //羽のレイヤ
-    int bladelayerid = HgWAddLayer((*this).windowid);
+    (*this).bladelayerid = HgWAddLayer((*this).windowid);
     //fanの頭のレイヤ
     int fancoverlayerid = HgWAddLayer((*this).windowid);
     //fanの体のレイヤ
@@ -80,11 +88,13 @@ void createFan(View* this){
     //文字列描写
     (*aFan).stringDraw(aFan, strlayerid);
     //羽の描写
-    (*aFan).fan_blade(aFan, bladelayerid);
+    (*aFan).fan_blade(aFan, (*this).bladelayerid);
     //fanの体の部分
     (*aFan).fan_body(aFan);
     //fanの頭の部分(網)の描写
     (*aFan).fan_cover(aFan, fancoverlayerid);
+
+	//(*this).setFan();
 
 	return;
 }
@@ -93,12 +103,14 @@ void createFan(View* this){
 void createBell(View* this){
 
 	Bell* aBell = newBell();
-	(*aBell).bellSetup(aBell);
+	//(*aBell).bellSetup(aBell);
+    //printf("%f\n",(*aBell).bell_str_y[0]);
+	
 
 	//風鈴のレイヤ
     int wide_bell_layerid = HgWAddLayer((*this).windowid);
     //風鈴の描写
-    wide_bell_Draw(wide_bell_layerid, aBell);
+    (*aBell).wide_bell_Draw(aBell, wide_bell_layerid);
 
 	//*(*this).bell = bell;
 

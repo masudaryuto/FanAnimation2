@@ -19,17 +19,18 @@ int main(void){
 	Model* aModel = newModel(aController);
 	View* aView = newView(aController, aModel);
 	(*aView).createFan(aView);
-	//(*aView).createBell(aView);
+	(*aView).createBell(aView);
 	
 
 	while(1){
+
 		//マウスイベント
 		(*aController).updateEvent(aController);
-		//(*aView).setController(aView, aController);
-		//(*aController).setPointOfController(*aController);
-		HgSleep(0.5);
 
+		//処理
 		(*aView).processJob(aView);
+
+		HgSleep(0.1);
 
 	}
 
