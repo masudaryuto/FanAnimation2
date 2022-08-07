@@ -78,11 +78,6 @@ void bellSetup(Bell* this){
     //printf("%f\n", (*this).bell_str_y[2]);
     printf("%f\n", (*this).bell_str_y[0]);
 
-
-
-
-
-
     //長方形の部分を動かす量
     (*this).move = 0.0;
     //フラグ
@@ -150,7 +145,6 @@ void wide_bell_Draw(Bell* this, int wide_bell_layerid){
 
     /***/
 
-
     HgLClear(wide_bell_layerid);
 
     //風鈴の紙の部分に文字を書きたい
@@ -177,8 +171,9 @@ void wide_bell_Draw(Bell* this, int wide_bell_layerid){
 
     return;
 }
+
 //風鈴の動かす
-void move_bell(int wide_bell_layerid, Fan* aFan, Bell* this){
+void move_bell(Bell* this, Fan* aFan, int wide_bell_layerid){
     //風鈴と扇風機の
     if((*aFan).fancircle_x - (*this).box_under_bell[0] < 185.0 && (*this).bell_flag == 0){
         if((*aFan).red_button_flag == 0){
@@ -200,16 +195,13 @@ void move_bell(int wide_bell_layerid, Fan* aFan, Bell* this){
             (*this).move = 0;
         }
         //風鈴を動かす。
-        wide_bell_Draw(wide_bell_layerid, this);
+        (*this).wide_bell_Draw(this, wide_bell_layerid);
     }
     else if((*aFan).fancircle_x - (*this).box_under_bell[0] >= 185.0 && (*aFan).fan_face_flag == 1 ){
         (*this).move = 0;
         //風鈴を動かす。
-        wide_bell_Draw(wide_bell_layerid, this);
+        (*this).wide_bell_Draw(this, wide_bell_layerid);
     }
+
     return;
 }
-
-
-
-

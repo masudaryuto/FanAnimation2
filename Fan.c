@@ -36,6 +36,11 @@ Fan* newFan(void){
 	(*this).fan_cover = &fan_cover;
 	(*this).rotation_x = &rotation_x;
 	(*this).rotation_y = &rotation_y;
+	(*this).fan_cover = &fan_cover;
+    (*this).button_judge = &button_judge;
+    (*this).spin_fan_judge = &spin_fan_judge;
+    
+
 
     return this;
 }
@@ -113,6 +118,8 @@ void stringDraw(Fan* this, int strlayeid){
     else {
         HgWText(strlayeid, 0, WINDOWSIZEy - 20, off_str, 1);
     }
+
+    return;
 }
 
 //扇風機の頭以外の描写
@@ -196,7 +203,7 @@ void fan_cover(Fan* this, int fancoverlayerid){
     //偶数だったら、spinボタンが起動し、首が回る。
     if((*this).spin_button_flag % 2 == 0){
         //fanの首を回す
-        //(*this) = spin_fan_judge((*this));
+        (*this).spin_fan_judge(this);
     }
     //大きな円
     HgLClear(fancoverlayerid);
@@ -303,3 +310,123 @@ double rotation_y(Fan* this, double x, double r1, double r2, double counter , do
     }
     return newblade_y;
 }
+
+//ボタンの判定
+void button_judge(Fan* this, int strlayerid, Point* aPoint){
+    //ボタン
+    double red_button[5] = {WINDOWSIZEx / 2 - 40, 120 / 2 - 5, 15, 14, 0};
+    double strong_button[5] = {WINDOWSIZEx / 2 + 40 + 40, 40 + 50, 13, 11, 0};
+    double middle_button[5] = {WINDOWSIZEx / 2 + 40 + 20, 40 + 23, 13, 11, 0};
+    double weak_button[5] = {WINDOWSIZEx / 2 + 40 - 15, 40 + 13, 13, 12, 0};
+    //赤いボタン(stop)
+    if (red_button[0] - red_button[2] < (*aPoint).x && (*aPoint).x < red_button[0] + red_button[2]){
+        if (red_button[1] - red_button[3] < (*aPoint).y && (*aPoint).y < red_button[1] + red_button[3]){
+            
+            //stopボタンを押したら、flagを1にする。
+            (*this).red_button_flag = 1;
+            //表示を"Now OFF"
+            (*this).stringDraw(this, strlayerid);
+        }
+    }
+    //spinボタン
+    if (WINDOWSIZEx - 40< (*aPoint).x && (*aPoint).x < WINDOWSIZEx){
+        if (WINDOWSIZEy - 60 < (*aPoint).y && (*aPoint).y < WINDOWSIZEy){
+            //偶数だったらON
+            (*this).spin_button_flag++;
+        }
+    }
+    //strongボタン
+    if (strong_button[0] - strong_button[2] < (*aPoint).x && (*aPoint).x < strong_button[0] + strong_button[2]){
+        if (strong_button[1] - strong_button[3] < (*aPoint).y && (*aPoint).y < strong_button[1] + strong_button[3]){
+            //conterに足す数を増やし、回転速度を上げる
+            (*this).add = 12;
+            //フラグを上げて、羽を回す。
+            (*this).red_button_flag = 0;
+            //表示を"Now strong"
+            (*this).stringDraw(this, strlayerid);
+        }
+    }
+    //middleボタン
+    if (middle_button[0] - middle_button[2] < (*aPoint).x && (*aPoint).x < middle_button[0] + middle_button[2]){
+        if (middle_button[1] - middle_button[3] < (*aPoint).y && (*aPoint).y < middle_button[1] + middle_button[3]){
+            //conterに足す数を増やし、回転速度を上げる
+            (*this).add = 8;
+            //フラグを上げて、羽を回す。
+            (*this).red_button_flag = 0;           
+            //表示を"Now middle"
+            (*this).stringDraw(this, strlayerid);
+
+        }
+    }
+    //weakボタン
+    if (weak_button[0] - weak_button[2] < (*aPoint).x && (*aPoint).x < weak_button[0] + weak_button[2]){
+        if (weak_button[1] - weak_button[3] < (*aPoint).y && (*aPoint).y < weak_button[1] + weak_button[3]){
+            //conterに足す数を増やし、回転速度を上げる
+            (*this).add = 4;
+            //フラグを上げて、羽を回す。
+            (*this).red_button_flag = 0;         
+            //表示を"Now weak"
+            stringDraw(this, strlayerid);
+        }
+    }
+
+    //プログラム終了
+    if (0 < (*aPoint).x && (*aPoint).x < 20){
+        if (0 < (*aPoint).y && (*aPoint).y < 20){
+            (*this).end_flag = 1;
+        }
+    }
+    return;
+}
+
+
+//fanの回転判定
+void spin_fan_judge(Fan* this){
+    //rが最大の時flag=0、左に首が周り、r1は小さくなっていく。
+    if ( (*this).fan_face_flag == 0){
+        (*this).bigfancircle_r1 -= 2;
+        (*this).smallfancircle_r1 -= 2;
+        (*this).fancircle_x --;
+        //小さい楕円のx半径が2になったら、flag=1とする。
+        if((*this).smallfancircle_r1 == 2){
+            (*this).fan_face_flag = 1;
+        }
+    }
+    //fanが、一番左を向いている時、flag=1で、x半径を大きくしていき、首を右に向けていく。
+    else if ((*this).fan_face_flag == 1){
+        (*this).bigfancircle_r1 += 2;
+        (*this).smallfancircle_r1 += 2;
+
+        (*this).fancircle_x++;
+        //fanが正面を向いたら、flagを2にする。
+        if((*this).smallfancircle_r1 == 40){
+            (*this).fan_face_flag = 2;
+        }
+    }
+    //flag=2の時、左に首を回す。
+    else if ((*this).fan_face_flag == 2){
+        (*this).bigfancircle_r1 -= 2;
+        (*this).smallfancircle_r1 -= 2;
+
+        (*this).fancircle_x ++;
+        //首が一番左を向いた時、flagを3にする。
+        if((*this).smallfancircle_r1 == 2){
+            //printf("C\n");
+            (*this).fan_face_flag = 3;
+        }
+    }
+    //首が一番左を向いている時、首を右に回す。
+    else if ((*this).fan_face_flag == 3){
+        (*this).bigfancircle_r1 += 2;
+        (*this).smallfancircle_r1 += 2;
+
+        (*this).fancircle_x --;
+        //首が正面を向いたら、flagを0にする。
+        if((*this).smallfancircle_r1 == 40){
+            (*this).fan_face_flag = 0;
+        }
+    }
+    return;
+}
+
+

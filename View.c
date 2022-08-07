@@ -1,4 +1,8 @@
 #include "Definition.h"
+int fancoverlayerid;
+int strlayerid;
+int wide_bell_layerid;
+
 
 View* newView(Controller* aController, Model* aModel){
 	View* this = NULL;
@@ -49,15 +53,32 @@ View* newView(Controller* aController, Model* aModel){
 	return this;
 }
 
-void processJob(View* this, Fan* aFan){
+void processJob(View* this, Fan* aFan, Bell* aBell){
 	Model* aModel = (*this).model;
 	Point* aPoint = (*aModel).getPoint(aModel);
+    //int fancoverlayerid = HgWAddLayer((*this).windowid);
 	
 	printf("x=%5.2f, y=%5.2f\n", (*aPoint).x, (*aPoint).y);
+	(*aFan).button_judge(aFan, strlayerid, aPoint);
 	
-	//Fan* aFan = (*this).fan;
-	//Fan* aFan = 
-	(*aFan).fan_blade(aFan, (*this).bladelayerid);
+	if( (*aFan).red_button_flag == 0) {
+		(*aFan).counter += (*aFan).add;
+		(*aFan).fan_blade(aFan, (*this).bladelayerid);
+
+		//spinボタン
+		if((*aFan).spin_button_flag % 2 == 0){
+			//spin_button_flag(spinボタン)が押されたら、fanの頭の部分が回転する描写が起きる。
+			//その時、fanの回転のために、x,y,rが変化されていくため、自然と羽も続いて、回転する。
+			fan_cover(aFan, fancoverlayerid);
+        }
+
+	}
+
+	(*aBell).move_bell(aBell, aFan, wide_bell_layerid);
+
+	if ((*aFan).end_flag == 1){
+		exit(EXIT_SUCCESS);
+	}
 
 	return;
 }
@@ -77,11 +98,11 @@ Fan* createFan(View* this){
     //羽のレイヤ
     (*this).bladelayerid = HgWAddLayer((*this).windowid);
     //fanの頭のレイヤ
-    int fancoverlayerid = HgWAddLayer((*this).windowid);
+    fancoverlayerid = HgWAddLayer((*this).windowid);
     //fanの体のレイヤ
     int fanbodylayerid = HgWAddLayer((*this).windowid);
     //文字列のレイヤ
-    int strlayerid = HgWAddLayer((*this).windowid);
+    strlayerid = HgWAddLayer((*this).windowid);
 
 	
 
@@ -100,7 +121,7 @@ Fan* createFan(View* this){
 }
 
 
-void createBell(View* this){
+Bell* createBell(View* this){
 
 	Bell* aBell = newBell();
 	//(*aBell).bellSetup(aBell);
@@ -108,14 +129,14 @@ void createBell(View* this){
 	
 
 	//風鈴のレイヤ
-    int wide_bell_layerid = HgWAddLayer((*this).windowid);
+    wide_bell_layerid = HgWAddLayer((*this).windowid);
     //風鈴の描写
     (*aBell).wide_bell_Draw(aBell, wide_bell_layerid);
 
 	//*(*this).bell = bell;
 
 
-	return;
+	return aBell;
 }
 
 void setModel(View* this){

@@ -47,6 +47,9 @@ typedef struct fan{
 	void (*fan_cover)(struct fan*, int);
 	double (*rotation_x)(struct fan*, double, double, double);
 	double (*rotation_y)(struct fan*, double, double, double, double, double);
+	void (*button_judge)(struct fan*, int, Point*);
+	void (*spin_fan_judge)(struct fan*);
+
 } Fan;
 
 //風鈴の構造体
@@ -74,7 +77,7 @@ typedef struct bell{
 	double (*bell_rotation_x)(double, double, int);
 	double (*bell_rotation_y)(double, double, int);
 	void (*wide_bell_Draw)(struct bell*, int);
-	void (*move_bell)(int, Fan*, struct bell*);
+	void (*move_bell)(struct bell*, Fan*, int);
 
 
 }Bell;
@@ -88,6 +91,10 @@ void fan_body(Fan*);
 void fan_cover(Fan*, int);
 double rotation_x(Fan*, double, double, double);
 double rotation_y(Fan*, double, double, double, double, double);
+void button_judge(Fan*, int, Point*);
+void spin_fan_judge(Fan*);
+
+
 
 /*風鈴*/
 Bell* newBell(void);
@@ -95,7 +102,7 @@ void bellSetup(Bell*);
 double bell_rotation_x(double, double, int);
 double bell_rotation_y(double, double, int);
 void wide_bell_Draw(Bell*, int);
-void move_bell(int, Fan*, Bell*);
+void move_bell(Bell*, Fan*, int);
 
 
 
@@ -116,6 +123,18 @@ typedef struct model{
 
 }Model;
 
+	/*
+    int strlayerid;
+	int fancoverlayerid;
+	
+    //fanの体のレイヤ
+    int fanbodylayerid;
+    //文字列のレイヤ
+
+	//Fan* fan;
+	
+	//Bell* bell;*/
+
 /*View*/
 typedef struct view
 {
@@ -127,20 +146,17 @@ typedef struct view
 	int windowid;
 	int bladelayerid;
 
-	//Fan* fan;
-	
-	//Bell* bell;
 	
 
 	Fan* (*createFan)(struct view*);
-	void (*createBell)(struct view*);
+	Bell* (*createBell)(struct view*);
 	void (*setModel)(struct view*);
 	void (*setController)(struct view*, struct controller*);
 	void (*moveFan)(struct view*);
 	void (*moveBell)(struct view*);
 	void (*soundFan)(struct view*);
 	void (*soundBell)(struct view*);
-	void (*processJob)(struct view*, Fan*);
+	void (*processJob)(struct view*, Fan*, Bell*);
 } View;
 
 /*Controller*/
@@ -171,14 +187,14 @@ double getSoundDate(Model*);
 /*View*/
 View* newView(Controller*, Model*);
 Fan* createFan(View*);
-void createBell(View*);
+Bell* createBell(View*);
 void setModel(View*);
 void setController(View*, Controller*);
 void moveFan(View*);
 void moveBell(View*);
 void soundFan(View*);
 void soundBell(View*);
-void processJob(View*, Fan*);
+void processJob(View*, Fan*, Bell*);
 
 /*Controller*/
 Controller* newController(void);
