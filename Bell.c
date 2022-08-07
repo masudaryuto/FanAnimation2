@@ -1,7 +1,81 @@
 #include "Definition.h"
 
+Bell* newBell(void){
+    Bell* this = NULL;
+    this = malloc(sizeof(Bell));
+    (*this).bellx = malloc(sizeof(double) * 3);
+    if((*this).bellx == NULL) exit(EXIT_FAILURE);
 
-/*********************************風鈴の関数******************************/
+    (*this).belly = malloc(sizeof(double) * 3);
+    if((*this).belly == NULL) exit(EXIT_FAILURE);
+
+    (*this).bellr = 0.0;
+
+    //風鈴の長方形の部分
+    (*this).line_under_bell = malloc(sizeof(double) * 4);
+    if((*this).line_under_bell == NULL) exit(EXIT_FAILURE);
+
+    (*this).box_under_bell = malloc(sizeof(double) * 4);
+    if((*this).box_under_bell == NULL) exit(EXIT_FAILURE);
+
+    (*this).line_up_bell = malloc(sizeof(double) * 4);
+    if((*this).line_up_bell == NULL) exit(EXIT_FAILURE);
+
+    (*this).bell_main = malloc(sizeof(double) * 5);
+    if((*this).bell_main == NULL) exit(EXIT_FAILURE);
+
+    (*this).bell_str_x = 0.0;
+    (*this).bell_str_y = malloc(sizeof(double) * 5);
+    if((*this).bell_str_y== NULL) exit(EXIT_FAILURE);
+
+    //長方形の部分を動かす量
+    (*this).move = 0.0;
+    //フラグ
+    (*this).bell_flag = 0.0;
+
+
+	(*this).bell_rotation_x = &bell_rotation_x;
+	(*this).bell_rotation_y = &bell_rotation_y;
+	(*this).wide_bell_Draw = &wide_bell_Draw;
+	(*this).move_bell = &move_bell;
+
+    return this;
+}
+
+void bellSetup(Bell* this){
+    double t_bellx[3] = {2 * WINDOWSIZEx / 9 - 50 * cos(M_PI/3), 2 * WINDOWSIZEx / 9 + 50 * cos(M_PI/3), 2 * WINDOWSIZEx / 9};
+    (*this).bellx = t_bellx;
+
+    double t_belly[3] = {7 * WINDOWSIZEy / 8 - 50 * sin(M_PI/3), 7 * WINDOWSIZEy / 8 - 50 * sin(M_PI/3), 7 * WINDOWSIZEy / 8};
+    (*this).belly = t_belly;
+    (*this).bellr = 50;
+
+    //風鈴の長方形の部分
+    double t_line_under_bell[4] = {2 * WINDOWSIZEx / 9, 7 * WINDOWSIZEy / 8 + 50, 2 * WINDOWSIZEx / 9, 6 * WINDOWSIZEy / 8};
+    (*this).line_under_bell = t_line_under_bell;
+
+    double t_box_under_bell[4] = {2 * WINDOWSIZEx / 9 - 50 * cos(M_PI/3), WINDOWSIZEy / 2, 2 * 50*cos(M_PI/3), 6 * WINDOWSIZEy / 8 - WINDOWSIZEy / 2};
+    (*this).box_under_bell = t_box_under_bell;
+
+    double t_line_up_bell[4] = {2 * WINDOWSIZEx / 9, 7 * WINDOWSIZEy / 8 + 50, 2 * WINDOWSIZEx / 9, WINDOWSIZEy};
+    (*this).line_up_bell = t_line_up_bell;
+
+    double t_bell_main[5] = {2 * WINDOWSIZEx / 9, 7 * WINDOWSIZEy / 8, 50, -M_PI / 3, 4 * M_PI / 3};
+    (*this).bell_main = t_bell_main;
+
+    (*this).bell_str_x = 2 * WINDOWSIZEx / 9 - (*this).bellr * cos(M_PI/3) + 17;
+
+    double t_bell_str_y[5] = {(6 * WINDOWSIZEy / 8) - 30 * (0 + 1), (6 * WINDOWSIZEy / 8) - 30 * (1 + 1), (6 * WINDOWSIZEy / 8) - 30 * (2 + 1), (6 * WINDOWSIZEy / 8) - 30 * (3 + 1), (6 * WINDOWSIZEy / 8) - 30 * (4 + 1)};
+    (*this).bell_str_y = t_bell_str_y;
+    //長方形の部分を動かす量
+    (*this).move = 0.0;
+    //フラグ
+    (*this).bell_flag = 0.0;
+
+    return;
+}
+
+
 //風鈴を揺らしたい。計算
 double bell_rotation_x(double bell_x, double bell_y, int k){
     double newbell_x;
@@ -23,7 +97,7 @@ double bell_rotation_y(double bell_x, double bell_y, int k){
     return newbell_y;
 }
 //風鈴の描写(どこかに風鈴を置き、そこに扇風機が向いたら、揺れるか音がなるか)
-void wide_bell_Draw(int wide_bell_layerid, Bell bell){
+void wide_bell_Draw(int wide_bell_layerid, Bell* this){
 
     HgLClear(wide_bell_layerid);
     //風鈴の紙の部分に文字を書きたい
@@ -31,50 +105,54 @@ void wide_bell_Draw(int wide_bell_layerid, Bell bell){
     char single[2];
     single[1] =  '\0';
     //線と長方形
-    HgWLine(wide_bell_layerid, bell.line_under_bell[0], bell.line_under_bell[1], bell.line_under_bell[2] - bell.move, bell.line_under_bell[3] + bell.move);
+    HgWLine(wide_bell_layerid, (*this).line_under_bell[0], (*this).line_under_bell[1], (*this).line_under_bell[2] - (*this).move, (*this).line_under_bell[3] + (*this).move);
     HgWSetFillColor(wide_bell_layerid, HG_SKYBLUE);
-    HgWBoxFill(wide_bell_layerid, bell.box_under_bell[0] - bell.move, bell.box_under_bell[1] + bell.move, bell.box_under_bell[2], bell.box_under_bell[3], 0);
+    HgWBoxFill(wide_bell_layerid, (*this).box_under_bell[0] - (*this).move, (*this).box_under_bell[1] + (*this).move, (*this).box_under_bell[2], (*this).box_under_bell[3], 0);
 
     //本体の部分
     HgWSetFillColor(wide_bell_layerid, HG_CYAN);
-    HgWLine(wide_bell_layerid, bell.line_up_bell[0], bell.line_up_bell[1], bell.line_up_bell[2], bell.line_up_bell[3]);
-    HgWFanFill(wide_bell_layerid, bell.bell_main[0], bell.bell_main[1], bell.bell_main[2], bell.bell_main[3], bell.bell_main[4], 0);
-    HgWPolygonFill(wide_bell_layerid, 3, bell.bellx, bell.belly,0);
+    HgWLine(wide_bell_layerid, (*this).line_up_bell[0], (*this).line_up_bell[1], (*this).line_up_bell[2], (*this).line_up_bell[3]);
+    HgWFanFill(wide_bell_layerid, (*this).bell_main[0], (*this).bell_main[1], (*this).bell_main[2], (*this).bell_main[3], (*this).bell_main[4], 0);
+    HgWPolygonFill(wide_bell_layerid, 3, (*this).bellx, (*this).belly,0);
     HgWSetFont(wide_bell_layerid,  HG_TBI, 20.0);
     for(int t=0; t<6; t++){
         single[0] = bell_str[t];
-        HgWText(wide_bell_layerid, bell.bell_str_x - bell.move,  bell.bell_str_y[t] + bell.move, single);
+        HgWText(wide_bell_layerid, (*this).bell_str_x - (*this).move,  (*this).bell_str_y[t] + (*this).move, single);
     }
 }
 //風鈴の動かす
-Bell move_bell(int wide_bell_layerid, Fan fan, Bell bell ){
+void move_bell(int wide_bell_layerid, Fan* aFan, Bell* this){
     //風鈴と扇風機の
-    if(fan.fancircle_x - bell.box_under_bell[0] < 185.0 && bell.bell_flag == 0){
-        if(fan.red_button_flag == 0){
+    if((*aFan).fancircle_x - (*this).box_under_bell[0] < 185.0 && (*this).bell_flag == 0){
+        if((*aFan).red_button_flag == 0){
             //weak
-            if (fan.add == 4) {
-                bell.move = 10;
+            if ((*aFan).add == 4) {
+                (*this).move = 10;
             }
             //middle
-            else if(fan.add == 8){
-                bell.move = 20;
+            else if((*aFan).add == 8){
+                (*this).move = 20;
             }
             //strong
-            else if(fan.add == 12){
-                bell.move = 30;
+            else if((*aFan).add == 12){
+                (*this).move = 30;
             }
         }
-        else if(fan.red_button_flag == 1){
-            bell.bell_flag = 1;
-            bell.move = 0;
+        else if((*aFan).red_button_flag == 1){
+            (*this).bell_flag = 1;
+            (*this).move = 0;
         }
         //風鈴を動かす。
-        wide_bell_Draw(wide_bell_layerid, bell);
+        wide_bell_Draw(wide_bell_layerid, this);
     }
-    else if(fan.fancircle_x - bell.box_under_bell[0] >= 185.0 && fan.fan_face_flag == 1 ){
-        bell.move = 0;
+    else if((*aFan).fancircle_x - (*this).box_under_bell[0] >= 185.0 && (*aFan).fan_face_flag == 1 ){
+        (*this).move = 0;
         //風鈴を動かす。
-        wide_bell_Draw(wide_bell_layerid, bell);
+        wide_bell_Draw(wide_bell_layerid, this);
     }
-    return bell;
+    return;
 }
+
+
+
+

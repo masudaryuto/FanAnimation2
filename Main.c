@@ -19,7 +19,7 @@ int main(void){
 	Model* aModel = newModel(aController);
 	View* aView = newView(aController, aModel);
 	(*aView).createFan(aView);
-	(*aView).createBell(aView);
+	//(*aView).createBell(aView);
 	
 
 	while(1){
@@ -29,7 +29,7 @@ int main(void){
 		//(*aController).setPointOfController(*aController);
 		HgSleep(0.5);
 
-		(*aView).processJob(aView, aController);
+		(*aView).processJob(aView);
 
 	}
 

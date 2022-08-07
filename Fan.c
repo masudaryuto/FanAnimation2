@@ -1,37 +1,72 @@
 #include "Definition.h"
 
-/***************************扇風機関数********************/
-Fan fanSetup(double fancircle_x, double fancircle_y, double bigfancircle_r1, double bigfancircle_r2, double smallfancircle_r1, double smallfancircle_r2, int red_button_flag, int spin_button_flag, int fan_face_flag, double add, double counter, int end_flag){
+Fan* newFan(void){
 
-    Fan fan;
-    //大きな楕円の中心座標
-    fan.fancircle_x = fancircle_x;
-    fan.fancircle_y = fancircle_y;
-    //大きな楕円のxの半径(r1)とyの半径(r2)
-    fan.bigfancircle_r1 = bigfancircle_r1;
-    fan.bigfancircle_r2 = bigfancircle_r2;
-    //大きな楕円の真ん中の小さな楕円のxの半径(r1)とyの半径(r2)
-    fan.smallfancircle_r1 = smallfancircle_r1;
-    fan.smallfancircle_r2 = smallfancircle_r2;
-    //stopボタンのフラグ//押されたら、flag=1
-    fan.red_button_flag = red_button_flag;
-    //spinボタンのフラグ
-    fan.spin_button_flag = spin_button_flag;
-    //spin_fan_judge関数で、首を回す判定に利用する。
-    fan.fan_face_flag = fan_face_flag;
-    //スピード調整
-    fan.add = add;
-    //counterを使って、回転させる
-    fan.counter = counter;
+    Fan* this = NULL;
+    this = malloc(sizeof(Fan));
+
+    //扇風機の円
+    (*this).fancircle_x = 0.0;
+    (*this).fancircle_y = 0.0;
+    (*this).bigfancircle_r1 = 0.0;
+    (*this).bigfancircle_r2 = 0.0;
+    //円の中の小さな円
+    (*this).smallfancircle_r1 = 0.0;
+    (*this).smallfancircle_r2 = 0.0;
+    //フラグ
+    (*this).red_button_flag = 0;
+    //spin
+    (*this).spin_button_flag = 0;
+    //関数内で、首を回す判定で必要なフラグ
+    (*this).fan_face_flag = 0;
+    //HgSleepで速さを調節する。
+    (*this).add = 0.0;
+    //fanの回転カウント
+    (*this).counter = 0.0;
     //プログラム終了フラグ
-    fan.end_flag = end_flag;
+    (*this).end_flag = 0;
 
-    return fan;
+	(*this).fanSetup = &fanSetup;
+	(*this).stringDraw = &stringDraw;
+	(*this).fan_blade = &fan_blade;
+	(*this).fan_body = &fan_body;
+	(*this).fan_cover = &fan_cover;
+	(*this).rotation_x = &rotation_x;
+	(*this).rotation_y = &rotation_y;
+
+    return this;
+}
+
+void fanSetup(Fan* this, double fancircle_x, double fancircle_y, double bigfancircle_r1, double bigfancircle_r2, double smallfancircle_r1, double smallfancircle_r2, int red_button_flag, int spin_button_flag, int fan_face_flag, double add, double counter, int end_flag){
+
+    //大きな楕円の中心座標
+    (*this).fancircle_x = fancircle_x;
+    (*this).fancircle_y = fancircle_y;
+    //大きな楕円のxの半径(r1)とyの半径(r2)
+    (*this).bigfancircle_r1 = bigfancircle_r1;
+    (*this).bigfancircle_r2 = bigfancircle_r2;
+    //大きな楕円の真ん中の小さな楕円のxの半径(r1)とyの半径(r2)
+    (*this).smallfancircle_r1 = smallfancircle_r1;
+    (*this).smallfancircle_r2 = smallfancircle_r2;
+    //stopボタンのフラグ//押されたら、flag=1
+    (*this).red_button_flag = red_button_flag;
+    //spinボタンのフラグ
+    (*this).spin_button_flag = spin_button_flag;
+    //spin_fan_judge関数で、首を回す判定に利用する。
+    (*this).fan_face_flag = fan_face_flag;
+    //スピード調整
+    (*this).add = add;
+    //counterを使って、回転させる
+    (*this).counter = counter;
+    //プログラム終了フラグ
+    (*this).end_flag = end_flag;
+
+    return;
 }
 
 
 //文字列描写
-void stringDraw(int strlayeid, Fan fan){
+void stringDraw(Fan* this, int strlayeid){
     int t;
     //文字列(ボタン)
     char spin_str[] = "SPIN";
@@ -43,7 +78,7 @@ void stringDraw(int strlayeid, Fan fan){
     char strong_button[] = "Now strong";
     char off_str[] = "Now OFF";
 
-    if(fan.counter == 0){
+    if((*this).counter == 0){
         //spinボタン
         HgSetFillColor(HG_RED);
         HgBoxFill(WINDOWSIZEx-40, WINDOWSIZEy-60, 40, 60,1);
@@ -56,18 +91,18 @@ void stringDraw(int strlayeid, Fan fan){
     }
     //羽が回っている時
     HgLClear(strlayeid);
-    if(fan.red_button_flag == 0){
+    if((*this).red_button_flag == 0){
 
         //強
-        if(fan.add == 12){
+        if((*this).add == 12){
             HgWText(strlayeid, 0, WINDOWSIZEy - 20, strong_button, 1);
         }        
         //中
-        else if(fan.add == 8){
+        else if((*this).add == 8){
             HgWText(strlayeid, 0, WINDOWSIZEy - 20, middle_button, 1);
         }
         //弱
-        else if(fan.add == 4){
+        else if((*this).add == 4){
             HgWText(strlayeid, 0, WINDOWSIZEy - 20, weak_button, 1);
         }
     }
@@ -78,19 +113,19 @@ void stringDraw(int strlayeid, Fan fan){
 }
 
 //扇風機の頭以外の描写
-void fan_body( Fan fan ){
+void fan_body(Fan* this){
     //扇風機の首
-    double fanneck_x[4] = {fan.fancircle_x + fan.smallfancircle_r1 - 30, fan.fancircle_x + fan.smallfancircle_r1, fan.fancircle_x - fan.smallfancircle_r1, fan.fancircle_x - fan.smallfancircle_r1 + 30};
-    double fanneck_y[4] = {fan.fancircle_y, (fan.fancircle_y - fan.bigfancircle_r1) / 2, (fan.fancircle_y - fan.bigfancircle_r1) / 2, fan.fancircle_y};
+    double fanneck_x[4] = {(*this).fancircle_x + (*this).smallfancircle_r1 - 30, (*this).fancircle_x + (*this).smallfancircle_r1, (*this).fancircle_x - (*this).smallfancircle_r1, (*this).fancircle_x - (*this).smallfancircle_r1 + 30};
+    double fanneck_y[4] = {(*this).fancircle_y, ((*this).fancircle_y - (*this).bigfancircle_r1) / 2, ((*this).fancircle_y - (*this).bigfancircle_r1) / 2, (*this).fancircle_y};
     //扇風機の首の根本
-    double fan_root[5] = {fan.fancircle_x, (fan.fancircle_y - fan.bigfancircle_r1) / 2, fan.smallfancircle_r1, (2 * fan.smallfancircle_r1) /3 - 10, 0};
+    double fan_root[5] = {(*this).fancircle_x, ((*this).fancircle_y - (*this).bigfancircle_r1) / 2, (*this).smallfancircle_r1, (2 * (*this).smallfancircle_r1) /3 - 10, 0};
     //扇風機の体
-    double fanbody[5] = {fan.fancircle_x, (fan.fancircle_y / 8) + fan.smallfancircle_r1 - 10, fan.bigfancircle_r1, fan.bigfancircle_r1 / 2,0};
+    double fanbody[5] = {(*this).fancircle_x, ((*this).fancircle_y / 8) + (*this).smallfancircle_r1 - 10, (*this).bigfancircle_r1, (*this).bigfancircle_r1 / 2,0};
     //ボタン
-    double red_button[5] = {fan.fancircle_x - fan.smallfancircle_r1, fan.bigfancircle_r1 / 2 - 5, 15, 14, 0};
-    double strong_button[5] = {fan.fancircle_x + fan.smallfancircle_r1 + 40, fan.smallfancircle_r1 + 50, 13, 11, 0};
-    double middle_button[5] = {fan.fancircle_x + fan.smallfancircle_r1 + 20, fan.smallfancircle_r1 + 23, 13, 11, 0};
-    double weak_button[5] = {fan.fancircle_x + fan.smallfancircle_r1 - 15, fan.smallfancircle_r1 + 13, 13, 12, 0};
+    double red_button[5] = {(*this).fancircle_x - (*this).smallfancircle_r1, (*this).bigfancircle_r1 / 2 - 5, 15, 14, 0};
+    double strong_button[5] = {(*this).fancircle_x + (*this).smallfancircle_r1 + 40, (*this).smallfancircle_r1 + 50, 13, 11, 0};
+    double middle_button[5] = {(*this).fancircle_x + (*this).smallfancircle_r1 + 20, (*this).smallfancircle_r1 + 23, 13, 11, 0};
+    double weak_button[5] = {(*this).fancircle_x + (*this).smallfancircle_r1 - 15, (*this).smallfancircle_r1 + 13, 13, 12, 0};
 
     //弱い、中、強い, 切
     char weak_str[] = "弱";
@@ -110,7 +145,7 @@ void fan_body( Fan fan ){
     HgOvalFill(fan_root[0], fan_root[1], fan_root[2], fan_root[3], fan_root[4], 0); 
     //扇風機と首の結び
     HgSetFillColor(HG_DGRAY);
-    HgBoxFill(fanneck_x[3], fanneck_y[0], fanneck_x[0]-fanneck_x[3], fan.smallfancircle_r2 - 20, 0);
+    HgBoxFill(fanneck_x[3], fanneck_y[0], fanneck_x[0]-fanneck_x[3], (*this).smallfancircle_r2 - 20, 0);
     //ボタン
     //切
     HgSetFillColor(HG_RED);
@@ -143,10 +178,12 @@ void fan_body( Fan fan ){
     HgSetFillColor(HG_RED);
     HgBoxFill(0, 0, 20, 20, 1);
     HgText(2, 0, end_button);
+
+    return;
 }
 
 //fanの頭の部分
-void fan_cover(int fancoverlayerid, Fan fan){
+void fan_cover(Fan* this, int fancoverlayerid){
     double cover_theta = M_PI / 12;
     int k;
     //網の部分
@@ -154,38 +191,38 @@ void fan_cover(int fancoverlayerid, Fan fan){
     double cover_y;
     //fanを回転させているように見せたい。
     //偶数だったら、spinボタンが起動し、首が回る。
-    if(fan.spin_button_flag % 2 == 0){
+    if((*this).spin_button_flag % 2 == 0){
         //fanの首を回す
-        //fan = spin_fan_judge(fan);
+        //(*this) = spin_fan_judge((*this));
     }
     //大きな円
     HgLClear(fancoverlayerid);
     HgWSetWidth(fancoverlayerid, 3.0);
     HgWSetColor(fancoverlayerid, HG_BLACK);
-    HgWOval(fancoverlayerid, fan.fancircle_x, fan.fancircle_y, fan.bigfancircle_r1, fan.bigfancircle_r2, 0);
+    HgWOval(fancoverlayerid, (*this).fancircle_x, (*this).fancircle_y, (*this).bigfancircle_r1, (*this).bigfancircle_r2, 0);
     //線が太いままなので、ここで、太さを戻す。
     HgWSetWidth(fancoverlayerid, 1.0);
     //円の中に円(fanの網の部分)
     HgWSetColor(fancoverlayerid, HG_BLUE);
-    HgWOval(fancoverlayerid, fan.fancircle_x, fan.fancircle_y, fan.smallfancircle_r1 + 1 * (fan.bigfancircle_r1 - fan.smallfancircle_r1) / 3, fan.smallfancircle_r2 + 1 * (fan.bigfancircle_r2 - fan.smallfancircle_r2) / 3, 0);
-    HgWOval(fancoverlayerid, fan.fancircle_x, fan.fancircle_y, fan.smallfancircle_r1 + 2 * (fan.bigfancircle_r1 - fan.smallfancircle_r1) / 3, fan.smallfancircle_r2 + 2 * (fan.bigfancircle_r2 - fan.smallfancircle_r2) / 3, 0);
+    HgWOval(fancoverlayerid, (*this).fancircle_x, (*this).fancircle_y, (*this).smallfancircle_r1 + 1 * ((*this).bigfancircle_r1 - (*this).smallfancircle_r1) / 3, (*this).smallfancircle_r2 + 1 * ((*this).bigfancircle_r2 - (*this).smallfancircle_r2) / 3, 0);
+    HgWOval(fancoverlayerid, (*this).fancircle_x, (*this).fancircle_y, (*this).smallfancircle_r1 + 2 * ((*this).bigfancircle_r1 - (*this).smallfancircle_r1) / 3, (*this).smallfancircle_r2 + 2 * ((*this).bigfancircle_r2 - (*this).smallfancircle_r2) / 3, 0);
     //網の縦線の部分
     for(int k = 0; k < 24; k++){
-        cover_x = rotation_x(fan.bigfancircle_r1, k, cover_theta);
-        cover_y = rotation_y(cover_x, fan.bigfancircle_r1, fan.bigfancircle_r2, k, cover_theta);
-        HgWLine(fancoverlayerid, fan.fancircle_x, fan.fancircle_y, cover_x + fan.fancircle_x, cover_y + fan.fancircle_y);
+        cover_x = rotation_x(this, (*this).bigfancircle_r1, k, cover_theta);
+        cover_y = rotation_y(this, cover_x, (*this).bigfancircle_r1, (*this).bigfancircle_r2, k, cover_theta);
+        HgWLine(fancoverlayerid, (*this).fancircle_x, (*this).fancircle_y, cover_x + (*this).fancircle_x, cover_y + (*this).fancircle_y);
     }
     //中心の黒い円(網の真ん中の円)
     HgWSetColor(fancoverlayerid, HG_BLACK);
     HgWSetFillColor(fancoverlayerid, HG_BLACK);
-    HgWOvalFill(fancoverlayerid, fan.fancircle_x, fan.fancircle_y, fan.smallfancircle_r1, fan.smallfancircle_r2, 0, 1);
+    HgWOvalFill(fancoverlayerid, (*this).fancircle_x, (*this).fancircle_y, (*this).smallfancircle_r1, (*this).smallfancircle_r2, 0, 1);
 
     return;
 }
 
 //羽の回転描写
-void fan_blade(int bladelayerid, Fan fan){
-
+void fan_blade(Fan* this, int bladelayerid){
+    puts("FF");
     //M_PI/100刻みで回る
     double blade_theta = M_PI / 100;
     //時差(fan.counterの時間を進めたり、遅らせたりする事で、羽を描く事ができる)
@@ -202,26 +239,27 @@ void fan_blade(int bladelayerid, Fan fan){
     double timely41 = 150;
     double timely42 = 170;
     //扇風機の羽1
-    double rotation_x1[2] = {rotation_x(fan.bigfancircle_r1,fan.counter + timely11, blade_theta), rotation_x(fan.bigfancircle_r1, fan.counter + timely12, blade_theta)};
-    double rotation_y1[2] = {rotation_y(rotation_x1[0], fan.bigfancircle_r1, fan.bigfancircle_r2, fan.counter + timely11, blade_theta), rotation_y(rotation_x1[1], fan.bigfancircle_r1, fan.bigfancircle_r2, fan.counter+timely12, blade_theta)};
-    double blade_x1[4] = {fan.fancircle_x, fan.fancircle_x + rotation_x1[0], fan.fancircle_x + rotation_x1[1], fan.fancircle_x};
-    double blade_y1[4] = {fan.fancircle_y, fan.fancircle_y + rotation_y1[0], fan.fancircle_y + rotation_y1[1], fan.fancircle_y};
+    double rotation_x1[2] = {(*this).rotation_x(this, (*this).bigfancircle_r1,(*this).counter + timely11, blade_theta), (*this).rotation_x(this, (*this).bigfancircle_r1, (*this).counter + timely12, blade_theta)};
+    double rotation_y1[2] = {(*this).rotation_y(this, rotation_x1[0], (*this).bigfancircle_r1, (*this).bigfancircle_r2, (*this).counter + timely11, blade_theta), (*this).rotation_y(this, rotation_x1[1], (*this).bigfancircle_r1, (*this).bigfancircle_r2, (*this).counter+timely12, blade_theta)};
+    double blade_x1[4] = {(*this).fancircle_x, (*this).fancircle_x + rotation_x1[0], (*this).fancircle_x + rotation_x1[1], (*this).fancircle_x};
+    double blade_y1[4] = {(*this).fancircle_y, (*this).fancircle_y + rotation_y1[0], (*this).fancircle_y + rotation_y1[1], (*this).fancircle_y};
     //扇風機の羽2
-    double rotation_x2[2] = {rotation_x(fan.bigfancircle_r1, fan.counter + timely21, blade_theta), rotation_x(fan.bigfancircle_r1, fan.counter+timely22, blade_theta)};
-    double rotation_y2[2] = {rotation_y(rotation_x2[0], fan.bigfancircle_r1, fan.bigfancircle_r2, fan.counter + timely21, blade_theta), rotation_y(rotation_x2[1], fan.bigfancircle_r1, fan.bigfancircle_r2, fan.counter + timely22, blade_theta)};
-    double blade_x2[4] = {fan.fancircle_x, fan.fancircle_x+rotation_x2[0], fan.fancircle_x+rotation_x2[1], fan.fancircle_x};
-    double blade_y2[4] = {fan.fancircle_y, fan.fancircle_y+rotation_y2[0], fan.fancircle_y+rotation_y2[1], fan.fancircle_y};
+    double rotation_x2[2] = {(*this).rotation_x(this, (*this).bigfancircle_r1, (*this).counter + timely21, blade_theta), (*this).rotation_x(this, (*this).bigfancircle_r1, (*this).counter+timely22, blade_theta)};
+    double rotation_y2[2] = {(*this).rotation_y(this, rotation_x2[0], (*this).bigfancircle_r1, (*this).bigfancircle_r2, (*this).counter + timely21, blade_theta), (*this).rotation_y(this, rotation_x2[1], (*this).bigfancircle_r1, (*this).bigfancircle_r2, (*this).counter + timely22, blade_theta)};
+    double blade_x2[4] = {(*this).fancircle_x, (*this).fancircle_x+rotation_x2[0], (*this).fancircle_x+rotation_x2[1], (*this).fancircle_x};
+    double blade_y2[4] = {(*this).fancircle_y, (*this).fancircle_y+rotation_y2[0], (*this).fancircle_y+rotation_y2[1], (*this).fancircle_y};
     //扇風機の羽3
-    double rotation_x3[2] = {rotation_x(fan.bigfancircle_r1,fan.counter+timely31, blade_theta), rotation_x(fan.bigfancircle_r1, fan.counter + timely32, blade_theta)};
-    double rotation_y3[2] = {rotation_y(rotation_x3[0], fan.bigfancircle_r1, fan.bigfancircle_r2, fan.counter + timely31, blade_theta), rotation_y(rotation_x3[1], fan.bigfancircle_r1, fan.bigfancircle_r2, fan.counter + timely32, blade_theta)};
-    double blade_x3[4] = {fan.fancircle_x, fan.fancircle_x + rotation_x3[0], fan.fancircle_x + rotation_x3[1], fan.fancircle_x};
-    double blade_y3[4] = {fan.fancircle_y, fan.fancircle_y + rotation_y3[0], fan.fancircle_y + rotation_y3[1], fan.fancircle_y };
+    double rotation_x3[2] = {(*this).rotation_x(this, (*this).bigfancircle_r1,(*this).counter+timely31, blade_theta), (*this).rotation_x(this, (*this).bigfancircle_r1, (*this).counter + timely32, blade_theta)};
+    double rotation_y3[2] = {(*this).rotation_y(this, rotation_x3[0], (*this).bigfancircle_r1, (*this).bigfancircle_r2, (*this).counter + timely31, blade_theta), (*this).rotation_y(this, rotation_x3[1], (*this).bigfancircle_r1, (*this).bigfancircle_r2, (*this).counter + timely32, blade_theta)};
+    double blade_x3[4] = {(*this).fancircle_x, (*this).fancircle_x + rotation_x3[0], (*this).fancircle_x + rotation_x3[1], (*this).fancircle_x};
+    double blade_y3[4] = {(*this).fancircle_y, (*this).fancircle_y + rotation_y3[0], (*this).fancircle_y + rotation_y3[1], (*this).fancircle_y };
     //扇風機の羽4
-    double rotation_x4[2] = {rotation_x(fan.bigfancircle_r1, fan.counter + timely41, blade_theta), rotation_x(fan.bigfancircle_r1, fan.counter + timely42, blade_theta)};
-    double rotation_y4[2] = {rotation_y(rotation_x4[0], fan.bigfancircle_r1, fan.bigfancircle_r2, fan.counter + timely41, blade_theta), rotation_y(rotation_x4[1], fan.bigfancircle_r1, fan.bigfancircle_r2, fan.counter + timely42, blade_theta)};
-    double blade_x4[4] = {fan.fancircle_x, fan.fancircle_x+rotation_x4[0], fan.fancircle_x+rotation_x4[1], fan.fancircle_x};
-    double blade_y4[4] = {fan.fancircle_y, fan.fancircle_y+rotation_y4[0], fan.fancircle_y+rotation_y4[1], fan.fancircle_y };
+    double rotation_x4[2] = {(*this).rotation_x(this, (*this).bigfancircle_r1, (*this).counter + timely41, blade_theta), (*this).rotation_x(this, (*this).bigfancircle_r1, (*this).counter + timely42, blade_theta)};
+    double rotation_y4[2] = {(*this).rotation_y(this, rotation_x4[0], (*this).bigfancircle_r1, (*this).bigfancircle_r2, (*this).counter + timely41, blade_theta), rotation_y(this, rotation_x4[1], (*this).bigfancircle_r1, (*this).bigfancircle_r2, (*this).counter + timely42, blade_theta)};
+    double blade_x4[4] = {(*this).fancircle_x, (*this).fancircle_x+rotation_x4[0], (*this).fancircle_x+rotation_x4[1], (*this).fancircle_x};
+    double blade_y4[4] = {(*this).fancircle_y, (*this).fancircle_y+rotation_y4[0], (*this).fancircle_y+rotation_y4[1], (*this).fancircle_y };
 
+    printf("%f\n", blade_x1[0]);
     HgLClear(bladelayerid);
     //fanの羽の描写
     HgWSetFillColor(bladelayerid, HG_DGRAY);
@@ -236,7 +274,7 @@ void fan_blade(int bladelayerid, Fan fan){
 
 
 //回転計算の関数x
-double rotation_x(double r1, double counter, double theta){
+double rotation_x(Fan* this, double r1, double counter, double theta){
     double newblade_x;
     // r1 >= r1cos(theta*k) >= -r1
     //k=0の時、r1 = r1で、xは右端
@@ -249,7 +287,7 @@ double rotation_x(double r1, double counter, double theta){
     return newblade_x;
 }
 
-double rotation_y( double x, double r1, double r2, double counter , double theta){
+double rotation_y(Fan* this, double x, double r1, double r2, double counter , double theta){
     double newblade_y;
     //楕円の式より、+と-と判定する必要がある。
     if(sin(theta*counter) > 0 )

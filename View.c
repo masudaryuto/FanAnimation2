@@ -5,11 +5,28 @@ View* newView(Controller* aController, Model* aModel){
 	this = (View*)malloc(sizeof(View));
 	if (this == NULL) exit(EXIT_FAILURE);
 
+	Point* aPoint = NULL;
+	aPoint = malloc(sizeof(Point));
+	if (aPoint == NULL) exit(EXIT_FAILURE);
+
+	/*
+	Fan* aFan = NULL;
+	aFan = malloc(sizeof(Fan));
+	if (aFan == NULL) exit(EXIT_FAILURE);
+
+	Bell* aBell = NULL;
+	aBell = malloc(sizeof(Bell));
+	if (aBell == NULL) exit(EXIT_FAILURE);
+	(*this).fan = NULL;
+	(*this).bell = NULL;
+	(*this).fan = NULL;
+	(*this).bell = NULL;
+	*/
 
 
 	(*this).controller = aController;
 	(*this).model = aModel;
-	(*this).point = NULL;
+	(*this).point = aPoint;
 	(*this).power = 0;
 	(*this).sound = 0;
 	(*this).windowid = 0;
@@ -27,11 +44,13 @@ View* newView(Controller* aController, Model* aModel){
 	return this;
 }
 
-void processJob(View* this, Controller* aController){
+void processJob(View* this){
+	Model* aModel = (*this).model;
+	Point* aPoint = (*aModel).getPoint(aModel);
 	
+	printf("x=%5.2f, y=%5.2f\n", (*aPoint).x, (*aPoint).y);
 	
-	printf("x=%5.2f, y=%5.2f\n", (*aController).x, (*aController).y);
-	
+	//fan_blade(bladelayerid, fan, bell);
 	return;
 }
 
@@ -40,8 +59,9 @@ void processJob(View* this, Controller* aController){
 
 
 void createFan(View* this){
+	Fan* aFan = newFan();
 
-	Fan fan = fanSetup(WINDOWSIZEx / 2, 5 * WINDOWSIZEy / 9, 120, 120, 40, 40, 1, 1, 0, 1, 0, 0);
+	(*aFan).fanSetup(aFan, WINDOWSIZEx / 2, 5 * WINDOWSIZEy / 9, 120, 120, 40, 40, 1, 1, 0, 1, 0, 0);
 
 	//window表示
 	(*this).windowid = HgWOpen(300, 100, WINDOWSIZEx, WINDOWSIZEy);
@@ -58,36 +78,30 @@ void createFan(View* this){
 	
 
     //文字列描写
-    stringDraw(strlayerid, fan);
+    (*aFan).stringDraw(aFan, strlayerid);
     //羽の描写
-    fan_blade(bladelayerid, fan);
+    (*aFan).fan_blade(aFan, bladelayerid);
     //fanの体の部分
-    fan_body(fan);
+    (*aFan).fan_body(aFan);
     //fanの頭の部分(網)の描写
-    fan_cover(fancoverlayerid, fan);
-	
+    (*aFan).fan_cover(aFan, fancoverlayerid);
 
 	return;
 }
 
 
 void createBell(View* this){
-	Bell bell = { {2 * WINDOWSIZEx / 9 - 50 * cos(M_PI/3), 2 * WINDOWSIZEx / 9 + 50 * cos(M_PI/3), 2 * WINDOWSIZEx / 9}, //bellx[3]
-		{7 * WINDOWSIZEy / 8 - 50 * sin(M_PI/3), 7 * WINDOWSIZEy / 8 - 50 * sin(M_PI/3), 7 * WINDOWSIZEy / 8}, //belly[3]
-		50,                                                                                  //bellr
-		{2 * WINDOWSIZEx / 9, 7 * WINDOWSIZEy / 8 + 50, 2 * WINDOWSIZEx / 9, 6 * WINDOWSIZEy / 8},          //line_under_bell[4]
-		{2 * WINDOWSIZEx / 9 - 50 * cos(M_PI/3), WINDOWSIZEy / 2, 2 * 50*cos(M_PI/3), 6 * WINDOWSIZEy / 8 - WINDOWSIZEy / 2},//box_under_bell[5]
-		{2 * WINDOWSIZEx / 9, 7 * WINDOWSIZEy / 8 + 50, 2 * WINDOWSIZEx / 9, WINDOWSIZEy},     //line_up_bell[4]
-		{2 * WINDOWSIZEx / 9, 7 * WINDOWSIZEy / 8, 50, -M_PI / 3, 4 * M_PI / 3},              //bell_main[6]
-		2 * WINDOWSIZEx / 9 - bell.bellr * cos(M_PI/3) + 17,                              //bell_str_x
-		{(6 * WINDOWSIZEy / 8) - 30 * (0 + 1), (6 * WINDOWSIZEy / 8) - 30 * (1 + 1), (6 * WINDOWSIZEy / 8) - 30 * (2 + 1), (6 * WINDOWSIZEy / 8) - 30 * (3 + 1), (6 * WINDOWSIZEy / 8) - 30 * (4 + 1)}, //bell_str_y
-		0.0,
-		0};//move
+
+	Bell* aBell = newBell();
+	(*aBell).bellSetup(aBell);
 
 	//風鈴のレイヤ
     int wide_bell_layerid = HgWAddLayer((*this).windowid);
     //風鈴の描写
-    wide_bell_Draw(wide_bell_layerid, bell);
+    wide_bell_Draw(wide_bell_layerid, aBell);
+
+	//*(*this).bell = bell;
+
 
 	return;
 }

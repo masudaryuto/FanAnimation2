@@ -8,6 +8,8 @@ Controller* newController(void){
 
 	Point* aPoint = NULL;
 	aPoint = (Point*)malloc(sizeof(Point));
+	if (aPoint == NULL) exit(EXIT_FAILURE);
+
 	(*aPoint).x = 0.0;
 	(*aPoint).y = 0.0;
 	(*this).point = aPoint;
@@ -35,8 +37,8 @@ Point getPointOfController(Controller* this){
 
 void setPointOfController(Controller* this){
 
-
-	//printf("x=%5.2f, y=%5.2f\n", (*this).x, (*this).y);
+	((*this).point)->x = (*this).x;
+	((*this).point)->y = (*this).y;
 	
 	return;
 }
@@ -57,12 +59,12 @@ void updateEvent(Controller* this){
 		(*this).y = (*this).event->y;
 
 		puts("click!");
-		(*this).setPointOfController(this);
 	}
 	else{
 		(*this).x = 0.0;
 		(*this).y = 0.0;
 	}
+	(*this).setPointOfController(this);
 
 	return;
 }
