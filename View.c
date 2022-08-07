@@ -5,10 +5,10 @@ View* newView(Controller* aController, Model* aModel){
 	this = (View*)malloc(sizeof(View));
 	if (this == NULL) exit(EXIT_FAILURE);
 
+
+
 	(*this).controller = aController;
 	(*this).model = aModel;
-	(*this).controller = NULL;
-	(*this).model = NULL;
 	(*this).point = NULL;
 	(*this).power = 0;
 	(*this).sound = 0;
@@ -22,9 +22,22 @@ View* newView(Controller* aController, Model* aModel){
 	(*this).moveBell = &moveBell;
 	(*this).soundFan = &soundFan;
 	(*this).soundBell = &soundBell;
+	(*this).processJob = &processJob;
 
 	return this;
 }
+
+void processJob(View* this, Controller* aController){
+	
+	
+	printf("x=%5.2f, y=%5.2f\n", (*aController).x, (*aController).y);
+	
+	return;
+}
+
+
+
+
 
 void createFan(View* this){
 
@@ -84,8 +97,9 @@ void setModel(View* this){
 
 	return;
 }
-void setController(View* this){
-	(*this).power = 1;
+void setController(View* this, Controller* aController){
+	
+	(*this).controller = aController;
 
 	return;
 }

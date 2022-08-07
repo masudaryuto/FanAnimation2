@@ -6,9 +6,13 @@ Controller* newController(void){
 	this = (Controller*)malloc(sizeof(Controller));
 	if (this == NULL) exit(EXIT_FAILURE);
 
-	(*this).point = NULL;
-	(*this).x = 0;
-	(*this).y = 0;
+	Point* aPoint = NULL;
+	aPoint = (Point*)malloc(sizeof(Point));
+	(*aPoint).x = 0.0;
+	(*aPoint).y = 0.0;
+	(*this).point = aPoint;
+	(*this).x = 0.0;
+	(*this).y = 0.0;
 
 	//(*this).createFan = &createFan;
 	(*this).getPointOfController = &getPointOfController;
@@ -25,29 +29,40 @@ Controller* newController(void){
 }
 
 Point getPointOfController(Controller* this){
-	Point aPoint = {0,0};
-	return aPoint;
+
+	return *(*this).point;
 }
 
 void setPointOfController(Controller* this){
 
+
+	//printf("x=%5.2f, y=%5.2f\n", (*this).x, (*this).y);
+	
 	return;
 }
 
 void judgeButton(Controller* this){
 
+	printf("\n");
 	return;
 }
 
 void updateEvent(Controller* this){
-	double clickx, clicky;
+
 	//クリック判定
 	HgSetEventMask(HG_MOUSE_DOWN);
 	(*this).event = HgEventNonBlocking();
 	if((*this).event != NULL) {
-		clickx=(*this).event->x;
-		clicky=(*this).event->y;
-		printf("x=%5.2f, y=%5.2f\n", clickx, clicky);
+		(*this).x = (*this).event->x;
+		(*this).y = (*this).event->y;
+
+		puts("click!");
+		(*this).setPointOfController(this);
 	}
+	else{
+		(*this).x = 0.0;
+		(*this).y = 0.0;
+	}
+
 	return;
 }

@@ -45,6 +45,7 @@ clean:
 	@if [ -e $(INSTDIR) ] ; then echo "rm -f -r $(INSTDIR)" ; rm -f -r $(INSTDIR) ; fi
 
 test: $(TARGET)
+	open ${HOME}/../../Applications/HgDisplayer.app;
 	./$(TARGET)
 
 install: $(TARGET)

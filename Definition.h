@@ -13,8 +13,8 @@ int main(void);
 
 /*Point*/
 typedef struct point{
-	double* x;
-	double* y;
+	double x;
+	double y;
 }Point;
 
 /*Model*/
@@ -26,7 +26,7 @@ typedef struct model{
 
 
 	Point* (*getPoint)(struct model*);
-	Point* (*setPoint)(struct model*);
+	void (*setPoint)(struct model*);
 	void (*setPower)(struct model*);
 	void (*mathFanToBell)(struct model*);
 	void (*setSoundDate)(struct model*);
@@ -47,11 +47,12 @@ typedef struct view
 	void (*createFan)(struct view*);
 	void (*createBell)(struct view*);
 	void (*setModel)(struct view*);
-	void (*setController)(struct view*);
+	void (*setController)(struct view*, struct controller*);
 	void (*moveFan)(struct view*);
 	void (*moveBell)(struct view*);
 	void (*soundFan)(struct view*);
 	void (*soundBell)(struct view*);
+	void (*processJob)(struct view*, struct controller*);
 } View;
 
 /*Controller*/
@@ -62,10 +63,11 @@ typedef struct controller
 	double y;
 	hgevent* event;
 
-	Point (*getPointOfController)(struct controller);
-	void (*setPointOfController)(struct controller);
-	void (*judgeButton)(struct controller);
-	void (*updateEvent)(struct controller);
+	Point (*getPointOfController)(struct controller*);
+	void (*setPointOfController)(struct controller*);
+	void (*judgeButton)(struct controller*);
+	void (*updateEvent)(struct controller*);
+
 
 } Controller;
 
@@ -73,7 +75,7 @@ typedef struct controller
 /*Model*/
 Model* newModel(Controller*);
 Point getPoint(Model*);
-Point setPoint(Model*);
+void setPoint(Model*);
 void setPower(Model*);
 void mathFanToBell(Model*);
 void setSoundDate(Model*);
@@ -84,11 +86,12 @@ View* newView(Controller*, Model*);
 void createFan(View*);
 void createBell(View*);
 void setModel(View*);
-void setController(View*);
+void setController(View*, Controller*);
 void moveFan(View*);
 void moveBell(View*);
 void soundFan(View*);
 void soundBell(View*);
+void processJob(View*, Controller*);
 
 /*Controller*/
 Controller* newController(void);
