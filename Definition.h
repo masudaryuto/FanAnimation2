@@ -132,7 +132,7 @@ typedef struct view
 	//Bell* bell;
 	
 
-	void (*createFan)(struct view*);
+	Fan* (*createFan)(struct view*);
 	void (*createBell)(struct view*);
 	void (*setModel)(struct view*);
 	void (*setController)(struct view*, struct controller*);
@@ -140,7 +140,7 @@ typedef struct view
 	void (*moveBell)(struct view*);
 	void (*soundFan)(struct view*);
 	void (*soundBell)(struct view*);
-	void (*processJob)(struct view*);
+	void (*processJob)(struct view*, Fan*);
 } View;
 
 /*Controller*/
@@ -170,7 +170,7 @@ double getSoundDate(Model*);
 
 /*View*/
 View* newView(Controller*, Model*);
-void createFan(View*);
+Fan* createFan(View*);
 void createBell(View*);
 void setModel(View*);
 void setController(View*, Controller*);
@@ -178,7 +178,7 @@ void moveFan(View*);
 void moveBell(View*);
 void soundFan(View*);
 void soundBell(View*);
-void processJob(View*);
+void processJob(View*, Fan*);
 
 /*Controller*/
 Controller* newController(void);

@@ -27,9 +27,12 @@ Fan* newFan(void){
     (*this).end_flag = 0;
 
 	(*this).fanSetup = &fanSetup;
+
 	(*this).stringDraw = &stringDraw;
-	(*this).fan_blade = &fan_blade;
-	(*this).fan_body = &fan_body;
+
+	(*this).fan_blade = fan_blade;
+
+	(*this).fan_body = fan_body;
 	(*this).fan_cover = &fan_cover;
 	(*this).rotation_x = &rotation_x;
 	(*this).rotation_y = &rotation_y;

@@ -18,7 +18,7 @@ int main(void){
 	Controller* aController = newController();
 	Model* aModel = newModel(aController);
 	View* aView = newView(aController, aModel);
-	(*aView).createFan(aView);
+	Fan* aFan = (*aView).createFan(aView);
 	(*aView).createBell(aView);
 	
 
@@ -28,7 +28,7 @@ int main(void){
 		(*aController).updateEvent(aController);
 
 		//処理
-		(*aView).processJob(aView);
+		(*aView).processJob(aView, aFan);
 
 		HgSleep(0.1);
 

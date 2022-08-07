@@ -49,7 +49,7 @@ View* newView(Controller* aController, Model* aModel){
 	return this;
 }
 
-void processJob(View* this){
+void processJob(View* this, Fan* aFan){
 	Model* aModel = (*this).model;
 	Point* aPoint = (*aModel).getPoint(aModel);
 	
@@ -57,7 +57,7 @@ void processJob(View* this){
 	
 	//Fan* aFan = (*this).fan;
 	//Fan* aFan = 
-	//(*aFan).fan_blade(aFan, (*this).bladelayerid);
+	(*aFan).fan_blade(aFan, (*this).bladelayerid);
 
 	return;
 }
@@ -66,7 +66,7 @@ void processJob(View* this){
 
 
 
-void createFan(View* this){
+Fan* createFan(View* this){
 	Fan* aFan = newFan();
 
 	(*aFan).fanSetup(aFan, WINDOWSIZEx / 2, 5 * WINDOWSIZEy / 9, 120, 120, 40, 40, 1, 1, 0, 1, 0, 0);
@@ -94,9 +94,9 @@ void createFan(View* this){
     //fanの頭の部分(網)の描写
     (*aFan).fan_cover(aFan, fancoverlayerid);
 
-	//(*this).setFan();
+	
 
-	return;
+	return aFan;
 }
 
 
