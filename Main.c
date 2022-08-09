@@ -24,6 +24,8 @@ int main(void){
 	Fan* aFan = (*aView).createFan(aView);
 	Bell* aBell = (*aView).createBell(aView);
 	
+	Sound* aSOund = (*aModel).sound;
+	HgSoundPlay((*aSOund).outSound);
 	//アニメーション処理開始します。
 	while(1){
 		//マウスイベント

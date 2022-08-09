@@ -62,6 +62,7 @@ Fan* createFan(View* this){
 
 	//window表示
 	(*this).windowid = HgWOpen(300, 100, WINDOWSIZEx, WINDOWSIZEy);
+	HgWSetTitle((*this).windowid,"Fan Animation");
 	
     //羽のレイヤ
     (*this).bladelayerid = HgWAddLayer((*this).windowid);
@@ -101,14 +102,14 @@ Bell* createBell(View* this){
 
 /* 扇風機の音を再現します。 */
 void soundFan(View* this){
-	(*this).power = 1;
+	
 
 	return;
 }
 
 /* 風鈴の音を再現します。 */
 void soundBell(View* this){
-	(*this).power = 1;
+	
 
 	return;
 }

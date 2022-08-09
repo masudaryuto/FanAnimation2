@@ -3,6 +3,7 @@
 #include<math.h>
 #include<handy.h>
 
+
 #define WINDOWSIZEx 600
 #define WINDOWSIZEy 600
 
@@ -85,6 +86,27 @@ typedef struct bell{
 
 }Bell;
 
+/*効果音*/
+typedef struct sound{
+	hgsound highFanSound;
+	int highFanFlag;
+
+	hgsound middleFanSound;
+	int middleFanFlag;
+
+	hgsound weakFanSound;
+	int weakFanFlag;
+
+	hgsound bellSound;
+	int bellFlag;
+
+	hgsound buttonSound;
+	int buttonFlag;
+
+	hgsound outSound;
+	int outFlag;
+}Sound;
+
 
 /*Model構造体*/
 typedef struct model{
@@ -92,12 +114,11 @@ typedef struct model{
 	Point point;
 	int power;
 	int faceFanBellFlag;
+	Sound* sound;
 
 
 	Point* (*getPoint)(struct model*);
 	void (*setPoint)(struct model*);
-	void (*setPower)(struct model*);
-	void (*mathFanToBell)(struct model*);
 	void (*setSoundDate)(struct model*);
 	double* (*getSoundDate)(struct model*);
 
@@ -167,8 +188,6 @@ void move_bell(Bell*, Fan*, int);
 Model* newModel(Controller*);
 Point getPoint(Model*);
 void setPoint(Model*);
-void setPower(Model*);
-void mathFanToBell(Model*);
 void setSoundDate(Model*);
 double getSoundDate(Model*);
 

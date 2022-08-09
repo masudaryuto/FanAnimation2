@@ -3,30 +3,31 @@
 /* Bell構造体のメモリ確保 */
 Bell* newBell(void){
     Bell* this = NULL;
-    this = malloc(sizeof(Bell));
-    (*this).bellx = malloc(sizeof(double) * 3);
+    this = (Bell*)malloc(sizeof(Bell));
+
+    (*this).bellx = (double*)malloc(sizeof(double) * 3);
     if((*this).bellx == NULL) exit(EXIT_FAILURE);
 
-    (*this).belly = malloc(sizeof(double) * 3);
+    (*this).belly = (double*)malloc(sizeof(double) * 3);
     if((*this).belly == NULL) exit(EXIT_FAILURE);
 
     (*this).bellr = 0.0;
 
     //風鈴の長方形の部分
-    (*this).line_under_bell = malloc(sizeof(double) * 4);
+    (*this).line_under_bell = (double*)malloc(sizeof(double) * 4);
     if((*this).line_under_bell == NULL) exit(EXIT_FAILURE);
 
-    (*this).box_under_bell = malloc(sizeof(double) * 4);
+    (*this).box_under_bell = (double*)malloc(sizeof(double) * 4);
     if((*this).box_under_bell == NULL) exit(EXIT_FAILURE);
 
-    (*this).line_up_bell = malloc(sizeof(double) * 4);
+    (*this).line_up_bell = (double*)malloc(sizeof(double) * 4);
     if((*this).line_up_bell == NULL) exit(EXIT_FAILURE);
 
-    (*this).bell_main = malloc(sizeof(double) * 5);
+    (*this).bell_main = (double*)malloc(sizeof(double) * 5);
     if((*this).bell_main == NULL) exit(EXIT_FAILURE);
 
     (*this).bell_str_x = 0.0;
-    (*this).bell_str_y = malloc(sizeof(double) * 5);
+    (*this).bell_str_y = (double*)malloc(sizeof(double) * 5);
     if((*this).bell_str_y== NULL) exit(EXIT_FAILURE);
 
     //長方形の部分を動かす量

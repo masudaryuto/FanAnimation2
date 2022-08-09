@@ -1,9 +1,10 @@
 #include "Definition.h"
 
+/* Fan構造体のメモリを確保します。*/
 Fan* newFan(void){
 
     Fan* this = NULL;
-    this = malloc(sizeof(Fan));
+    this = (Fan*)malloc(sizeof(Fan));
 
     //扇風機の円
     (*this).fancircle_x = 0.0;
@@ -37,12 +38,11 @@ Fan* newFan(void){
 	(*this).fan_cover = &fan_cover;
     (*this).button_judge = &button_judge;
     (*this).spin_fan_judge = &spin_fan_judge;
-    
-
 
     return this;
 }
 
+/*扇風機のボタン判定を行います。*/
 void judgeFan(Fan* this, View* aView){
 	if( (*this).red_button_flag == 0) {
 		(*this).counter += (*this).add;
@@ -63,6 +63,7 @@ void judgeFan(Fan* this, View* aView){
     return;
 }
 
+/*Fanを初期化します。*/
 void fanSetup(Fan* this, double fancircle_x, double fancircle_y, double bigfancircle_r1, double bigfancircle_r2, double smallfancircle_r1, double smallfancircle_r2, int red_button_flag, int spin_button_flag, int fan_face_flag, double add, double counter, int end_flag){
 
     //大きな楕円の中心座標
@@ -91,7 +92,7 @@ void fanSetup(Fan* this, double fancircle_x, double fancircle_y, double bigfanci
 }
 
 
-//文字列描写
+/*文字列描写を行います。*/
 void stringDraw(Fan* this, int strlayeid){
     int t;
     //文字列(ボタン)
@@ -140,7 +141,7 @@ void stringDraw(Fan* this, int strlayeid){
     return;
 }
 
-//扇風機の頭以外の描写
+/*扇風機の頭以外の描写を行います。*/
 void fan_body(Fan* this){
     //扇風機の首
     double fanneck_x[4] = {(*this).fancircle_x + (*this).smallfancircle_r1 - 30, (*this).fancircle_x + (*this).smallfancircle_r1, (*this).fancircle_x - (*this).smallfancircle_r1, (*this).fancircle_x - (*this).smallfancircle_r1 + 30};
@@ -210,7 +211,7 @@ void fan_body(Fan* this){
     return;
 }
 
-//fanの頭の部分
+/*fanの頭の部分を描画します。*/
 void fan_cover(Fan* this, int fancoverlayerid){
     double cover_theta = M_PI / 12;
     int k;
@@ -248,7 +249,7 @@ void fan_cover(Fan* this, int fancoverlayerid){
     return;
 }
 
-//羽の回転描写
+/*羽の回転描写*/
 void fan_blade(Fan* this, int bladelayerid){
 
     //M_PI/100刻みで回る
@@ -300,8 +301,7 @@ void fan_blade(Fan* this, int bladelayerid){
     return;
 }
 
-
-//回転計算の関数x
+/*回転計算の関数x*/
 double rotation_x(Fan* this, double r1, double counter, double theta){
     double newblade_x;
     // r1 >= r1cos(theta*k) >= -r1
@@ -315,6 +315,7 @@ double rotation_x(Fan* this, double r1, double counter, double theta){
     return newblade_x;
 }
 
+/*回転計算の関数y*/
 double rotation_y(Fan* this, double x, double r1, double r2, double counter , double theta){
     double newblade_y;
     //楕円の式より、+と-と判定する必要がある。
@@ -329,7 +330,7 @@ double rotation_y(Fan* this, double x, double r1, double r2, double counter , do
     return newblade_y;
 }
 
-//ボタンの判定
+/*ボタンの判定を行います。*/
 void button_judge(Fan* this, int strlayerid, Point* aPoint){
     //ボタン
     double red_button[5] = {WINDOWSIZEx / 2 - 40, 120 / 2 - 5, 15, 14, 0};
@@ -344,6 +345,7 @@ void button_judge(Fan* this, int strlayerid, Point* aPoint){
             (*this).red_button_flag = 1;
             //表示を"Now OFF"
             (*this).stringDraw(this, strlayerid);
+            
         }
     }
     //spinボタン
@@ -398,7 +400,7 @@ void button_judge(Fan* this, int strlayerid, Point* aPoint){
 }
 
 
-//fanの回転判定
+/*fanの回転判定を行います。*/
 void spin_fan_judge(Fan* this){
     //rが最大の時flag=0、左に首が周り、r1は小さくなっていく。
     if ( (*this).fan_face_flag == 0){
@@ -446,5 +448,3 @@ void spin_fan_judge(Fan* this){
     }
     return;
 }
-
-
