@@ -27,11 +27,9 @@ Fan* newFan(void){
     (*this).end_flag = 0;
 
 	(*this).fanSetup = &fanSetup;
-
+    (*this).judgeFan = &judgeFan;
 	(*this).stringDraw = &stringDraw;
-
 	(*this).fan_blade = &fan_blade;
-
 	(*this).fan_body = &fan_body;
 	(*this).fan_cover = &fan_cover;
 	(*this).rotation_x = &rotation_x;
@@ -43,6 +41,26 @@ Fan* newFan(void){
 
 
     return this;
+}
+
+void judgeFan(Fan* this, View* aView){
+	if( (*this).red_button_flag == 0) {
+		(*this).counter += (*this).add;
+		(*this).fan_blade(this, (*aView).bladelayerid);
+
+		//spinボタン
+		if((*this).spin_button_flag % 2 == 0){
+			//spin_button_flag(spinボタン)が押されたら、fanの頭の部分が回転する描写が起きる。
+			//その時、fanの回転のために、x,y,rが変化されていくため、自然と羽も続いて、回転する。
+			(*this).fan_cover(this, (*aView).fancoverlayerid);
+        }
+
+	}
+	if ((*this).end_flag == 1){
+		exit(EXIT_SUCCESS);
+	}
+
+    return;
 }
 
 void fanSetup(Fan* this, double fancircle_x, double fancircle_y, double bigfancircle_r1, double bigfancircle_r2, double smallfancircle_r1, double smallfancircle_r2, int red_button_flag, int spin_button_flag, int fan_face_flag, double add, double counter, int end_flag){

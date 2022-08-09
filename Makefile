@@ -1,6 +1,7 @@
 PROGRAM	= Main
+APPNAME = FanAnimation
 TARGET	= $(shell echo $(PROGRAM) | tr "[:upper:]" "[:lower:]")
-INSTDIR	= $(PROGRAM).app/Contents/Resources/C/
+INSTDIR	= $(APPNAME).app/Contents/Resources/C/
 ARCHIVE	= $(shell basename `pwd`)
 CC	= hgcc
 CCFLAGS	= $(shell \
@@ -46,6 +47,7 @@ clean:
 
 test: $(TARGET)
 	open ${HOME}/../../Applications/HgDisplayer.app;
+	sleep 3;
 	./$(TARGET)
 
 install: $(TARGET)

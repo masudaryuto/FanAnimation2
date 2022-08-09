@@ -1,0 +1,17 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/masudaryuto/Documents/GitHub/FanAnimation'
+:
+hgcc -c Main.c -o Main.o
+:
+hgcc -c Model.c -o Model.o
+ 
+:
+hgcc -c Controller.c -o Controller.o
+:
+hgcc -c Fan.c -o Fan.o
+:
+hgcc -c Bell.c -o Bell.o
+hgcc -o main Main.o Model.o View.o Controller.o Fan.o Bell.o
+:
+make: Leaving directory `/Users/masudaryuto/Documents/GitHub/FanAnimation'
+ 

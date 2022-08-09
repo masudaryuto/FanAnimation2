@@ -5,19 +5,19 @@
 
 #define WINDOWSIZEx 600
 #define WINDOWSIZEy 600
-/*Main*/
+
+/*Mainメソッド*/
 int main(void);
 
-/*Point*/
+
+
+/*Point構造体*/
 typedef struct point{
 	double x;
 	double y;
 }Point;
 
-
-
-/*parts*/
-//構造体
+/*Fan構造体*/
 typedef struct fan{
     //扇風機の円
     double fancircle_x;
@@ -41,6 +41,7 @@ typedef struct fan{
     int end_flag;
 
 	void (*fanSetup)(struct fan*, double, double, double, double, double, double, int, int, int, double, double, int);
+	void (*judgeFan)(struct fan*, struct View*);
 	void (*stringDraw)(struct fan*, int);
 	void (*fan_blade)(struct fan*, int);
 	void (*fan_body)(struct fan*);
@@ -52,7 +53,8 @@ typedef struct fan{
 
 } Fan;
 
-//風鈴の構造体
+
+/*風鈴構造体*/
 typedef struct bell{
     //風鈴のガラスの部分
     double* bellx;
@@ -83,31 +85,8 @@ typedef struct bell{
 
 }Bell;
 
-/*扇風機*/
-Fan* newFan(void);
-void fanSetup(Fan*, double, double, double, double, double, double, int, int, int, double, double, int);
-void stringDraw(Fan*, int);
-void fan_blade(Fan*, int);
-void fan_body(Fan*);
-void fan_cover(Fan*, int);
-double rotation_x(Fan*, double, double, double);
-double rotation_y(Fan*, double, double, double, double, double);
-void button_judge(Fan*, int, Point*);
-void spin_fan_judge(Fan*);
 
-
-
-/*風鈴*/
-Bell* newBell(void);
-void bellSetup(Bell*);
-double bell_rotation_x(double, double, int);
-double bell_rotation_y(double, double, int);
-void wide_bell_Draw(Bell*, int);
-void move_bell(Bell*, Fan*, int);
-
-
-
-/*Model*/
+/*Model構造体*/
 typedef struct model{
 	struct Controller* controller;
 	Point point;
@@ -124,19 +103,7 @@ typedef struct model{
 
 }Model;
 
-	/*
-    int strlayerid;
-	int fancoverlayerid;
-	
-    //fanの体のレイヤ
-    int fanbodylayerid;
-    //文字列のレイヤ
-
-	//Fan* fan;
-	
-	//Bell* bell;*/
-
-/*View*/
+/*View構造体*/
 typedef struct view
 {
 	struct Controller* controller;
@@ -147,20 +114,21 @@ typedef struct view
 	int windowid;
 	int bladelayerid;
 
-	
+	int fancoverlayerid;
+	int strlayerid;
+	int wide_bell_layerid;
+	int fanbodylayerid;
+
+
 
 	Fan* (*createFan)(struct view*);
 	Bell* (*createBell)(struct view*);
-	void (*setModel)(struct view*);
-	void (*setController)(struct view*, struct controller*);
-	void (*moveFan)(struct view*);
-	void (*moveBell)(struct view*);
 	void (*soundFan)(struct view*);
 	void (*soundBell)(struct view*);
 	void (*processJob)(struct view*, Fan*, Bell*);
 } View;
 
-/*Controller*/
+/*Controller構造体*/
 typedef struct controller
 {
 	Point* point;
@@ -170,13 +138,32 @@ typedef struct controller
 
 	Point (*getPointOfController)(struct controller*);
 	void (*setPointOfController)(struct controller*);
-	void (*judgeButton)(struct controller*);
 	void (*updateEvent)(struct controller*);
 
 } Controller;
 
+/*扇風機メソッド*/
+Fan* newFan(void);
+void fanSetup(Fan*, double, double, double, double, double, double, int, int, int, double, double, int);
+void judgeFan(Fan*, View*);
+void stringDraw(Fan*, int);
+void fan_blade(Fan*, int);
+void fan_body(Fan*);
+void fan_cover(Fan*, int);
+double rotation_x(Fan*, double, double, double);
+double rotation_y(Fan*, double, double, double, double, double);
+void button_judge(Fan*, int, Point*);
+void spin_fan_judge(Fan*);
 
-/*Model*/
+/*風鈴メソッド*/
+Bell* newBell(void);
+void bellSetup(Bell*);
+double bell_rotation_x(double, double, int);
+double bell_rotation_y(double, double, int);
+void wide_bell_Draw(Bell*, int);
+void move_bell(Bell*, Fan*, int);
+
+/*Modelメソッド*/
 Model* newModel(Controller*);
 Point getPoint(Model*);
 void setPoint(Model*);
@@ -185,7 +172,7 @@ void mathFanToBell(Model*);
 void setSoundDate(Model*);
 double getSoundDate(Model*);
 
-/*View*/
+/*Viewメソッド*/
 View* newView(Controller*, Model*);
 Fan* createFan(View*);
 Bell* createBell(View*);
@@ -197,9 +184,8 @@ void soundFan(View*);
 void soundBell(View*);
 void processJob(View*, Fan*, Bell*);
 
-/*Controller*/
+/*Controllerメソッド*/
 Controller* newController(void);
 Point getPointOfController(Controller*);
 void setPointOfController(Controller*);
-void judgeButton(Controller*);
 void updateEvent(Controller*);

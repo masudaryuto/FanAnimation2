@@ -1,5 +1,6 @@
 #include "Definition.h"
 
+/* コントローラのメモリ確保を行います。 */
 Controller* newController(void){
 
 	Controller* this = NULL;
@@ -16,11 +17,9 @@ Controller* newController(void){
 	(*this).x = 0.0;
 	(*this).y = 0.0;
 
-	//(*this).createFan = &createFan;
 	(*this).getPointOfController = &getPointOfController;
 	(*this).setPointOfController = setPointOfController;
-	(*this).judgeButton = judgeButton;
-	(*this).updateEvent = updateEvent;
+	(*this).updateEvent = &updateEvent;
 
 	//クリック判定
     hgevent *event;
@@ -30,11 +29,13 @@ Controller* newController(void){
 	return this;
 }
 
+/* クリックした画面の座標を返します。*/
 Point getPointOfController(Controller* this){
 
 	return *(*this).point;
 }
 
+/* Point座標へ変換します。 */
 void setPointOfController(Controller* this){
 
 	((*this).point)->x = (*this).x;
@@ -43,12 +44,7 @@ void setPointOfController(Controller* this){
 	return;
 }
 
-void judgeButton(Controller* this){
-
-	printf("\n");
-	return;
-}
-
+/* クリックした位置を取得します。 */
 void updateEvent(Controller* this){
 
 	//クリック判定

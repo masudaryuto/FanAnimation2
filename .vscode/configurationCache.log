@@ -1,0 +1,1 @@
+{"buildTargets":["Bell.c","Controller.c","Fan.c","Main.c","Main.o","Model.c","View.c","all","clean","format","install","lint","main","open","test","wipe","zip"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
