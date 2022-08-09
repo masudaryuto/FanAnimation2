@@ -6,6 +6,9 @@ HgGraphicを使って扇風機と風鈴のアニメーションを作る。
 また、風鈴を横に置き、扇風機が風鈴の方向に向くと、風鈴が風で、押されていることを再現した。強さによっても変わる。
 ＜参考文献＞Handy Graphicユーザーズガイド、http://www7a.biglobe.ne.jp/~ogihara/Hg/products/guide0.64.pdf
 //######＜訂正箇所＞ドッドエディタのように、ボタンの条件を配列を使ってまとめる。
+
+また、このプログラムは、1回生の基礎プログラミング演習の自由制作で作成したプログラムに対して、
+初学者から玄人が行うようなプログラムに変更した。
 */
 
 #include "Definition.h"
@@ -21,13 +24,12 @@ int main(void){
 	Fan* aFan = (*aView).createFan(aView);
 	Bell* aBell = (*aView).createBell(aView);
 	
-
+	//アニメーション処理開始します。
 	while(1){
-
 		//マウスイベント
 		(*aController).updateEvent(aController);
 
-		//処理
+		//主に風鈴、扇風機の処理を行います。
 		(*aView).processJob(aView, aFan, aBell);
 
 		HgSleep(0.1);

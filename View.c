@@ -124,7 +124,7 @@ Fan* createFan(View* this){
 Bell* createBell(View* this){
 
 	Bell* aBell = newBell();
-	//(*aBell).bellSetup(aBell);
+	(*aBell).bellSetup(aBell);
     //printf("%f\n",(*aBell).bell_str_y[0]);
 	
 

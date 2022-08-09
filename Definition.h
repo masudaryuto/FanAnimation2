@@ -56,6 +56,7 @@ typedef struct fan{
 typedef struct bell{
     //風鈴のガラスの部分
     double* bellx;
+
     double* belly;
     double bellr;
 
