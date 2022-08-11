@@ -20,12 +20,23 @@ Fan* newFan(void){
     (*this).spin_button_flag = 0;
     //関数内で、首を回す判定で必要なフラグ
     (*this).fan_face_flag = 0;
+	(*this).fanFaceFlag = 0;
+	(*this).startFlag = 0;
     //HgSleepで速さを調節する。
     (*this).add = 0.0;
     //fanの回転カウント
     (*this).counter = 0.0;
     //プログラム終了フラグ
     (*this).end_flag = 0;
+
+    (*this).red_button_flag = 0;
+	(*this).stopButtonFlag = 0;
+	(*this).lowButtonFlag = 0;
+	(*this).middleButtonFlag = 0;
+	(*this).strongButtonFlag = 0;
+	(*this).exitButtonFlag = 0;
+	(*this).spinButtonFlag = 0;
+
 
 	(*this).fanSetup = &fanSetup;
     (*this).judgeFan = &judgeFan;
@@ -118,8 +129,8 @@ void stringDraw(Fan* this, int strlayeid){
     }
     //羽が回っている時
     HgLClear(strlayeid);
+    HgWSetColor(strlayeid, HG_BLUE);
     if((*this).red_button_flag == 0){
-
         //強
         if((*this).add == 12){
             HgWText(strlayeid, 0, WINDOWSIZEy - 20, strong_button, 1);
@@ -345,6 +356,7 @@ void button_judge(Fan* this, int strlayerid, Point* aPoint){
             (*this).red_button_flag = 1;
             //表示を"Now OFF"
             (*this).stringDraw(this, strlayerid);
+            (*this).stopButtonFlag = 1;
             
         }
     }
@@ -353,6 +365,8 @@ void button_judge(Fan* this, int strlayerid, Point* aPoint){
         if (WINDOWSIZEy - 60 < (*aPoint).y && (*aPoint).y < WINDOWSIZEy){
             //偶数だったらON
             (*this).spin_button_flag++;
+		    (*this).spinButtonFlag = 1;
+            
         }
     }
     //strongボタン
@@ -364,6 +378,7 @@ void button_judge(Fan* this, int strlayerid, Point* aPoint){
             (*this).red_button_flag = 0;
             //表示を"Now strong"
             (*this).stringDraw(this, strlayerid);
+            (*this).strongButtonFlag = 1;
         }
     }
     //middleボタン
@@ -375,6 +390,7 @@ void button_judge(Fan* this, int strlayerid, Point* aPoint){
             (*this).red_button_flag = 0;           
             //表示を"Now middle"
             (*this).stringDraw(this, strlayerid);
+            (*this).middleButtonFlag = 1;
 
         }
     }
@@ -387,6 +403,7 @@ void button_judge(Fan* this, int strlayerid, Point* aPoint){
             (*this).red_button_flag = 0;         
             //表示を"Now weak"
             stringDraw(this, strlayerid);
+            (*this).lowButtonFlag = 1;
         }
     }
 
@@ -394,6 +411,7 @@ void button_judge(Fan* this, int strlayerid, Point* aPoint){
     if (0 < (*aPoint).x && (*aPoint).x < 20){
         if (0 < (*aPoint).y && (*aPoint).y < 20){
             (*this).end_flag = 1;
+            (*this).exitButtonFlag = 1;
         }
     }
     return;

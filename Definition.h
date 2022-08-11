@@ -4,8 +4,9 @@
 #include<handy.h>
 
 
-#define WINDOWSIZEx 600
+#define WINDOWSIZEx 1200
 #define WINDOWSIZEy 600
+#define FanBellFaceToFaceDistance 358
 
 /*Mainメソッド*/
 int main(void);
@@ -30,10 +31,26 @@ typedef struct fan{
     double smallfancircle_r2;
     //フラグ
     int red_button_flag;
+	//赤ボタン
+	int stopButtonFlag;
+	//黄ボタン
+	int lowButtonFlag;
+	//青ボタン
+	int middleButtonFlag;
+	//緑ボタン
+	int strongButtonFlag;
+	//終わりボタン
+	int exitButtonFlag;
+	//spinボタン
+	int spinButtonFlag;
+	//風鈴検知
     //spin
     int spin_button_flag;
     //関数内で、首を回す判定で必要なフラグ
     int fan_face_flag;
+	//首の位置を判定するフラグ
+	int fanFaceFlag;
+	int startFlag;
     //HgSleepで速さを調節する。
     double add;
     //fanの回転カウント
@@ -121,6 +138,7 @@ typedef struct model{
 	void (*setPoint)(struct model*);
 	void (*setSoundDate)(struct model*);
 	double* (*getSoundDate)(struct model*);
+	void (*onSoundDate)(struct model*, struct view*);
 
 }Model;
 
@@ -130,6 +148,8 @@ typedef struct view
 	struct Controller* controller;
 	Model* model;
 	Point* point;
+	Fan* fan;
+	Bell* bell;
 	int power;
 	int sound;
 	int windowid;
@@ -190,6 +210,7 @@ Point getPoint(Model*);
 void setPoint(Model*);
 void setSoundDate(Model*);
 double getSoundDate(Model*);
+void onSoundDate(Model*, View*);
 
 /*Viewメソッド*/
 View* newView(Controller*, Model*);

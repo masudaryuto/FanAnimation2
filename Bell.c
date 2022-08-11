@@ -37,10 +37,10 @@ Bell* newBell(void){
 
     //メソッド
     (*this).bellSetup = &bellSetup;
-	(*this).bell_rotation_x = &bell_rotation_x;
-	(*this).bell_rotation_y = &bell_rotation_y;
-	(*this).wide_bell_Draw = &wide_bell_Draw;
-	(*this).move_bell = &move_bell;
+    (*this).bell_rotation_x = &bell_rotation_x;
+    (*this).bell_rotation_y = &bell_rotation_y;
+    (*this).wide_bell_Draw = &wide_bell_Draw;
+    (*this).move_bell = &move_bell;
 
     return this;
 }
@@ -148,34 +148,48 @@ void wide_bell_Draw(Bell* this, int wide_bell_layerid){
 
 /*風鈴の動かす*/
 void move_bell(Bell* this, Fan* aFan, int wide_bell_layerid){
+    printf("%f\n", (*aFan).fancircle_x);
+    printf("%f\n", (*this).bellx[0]);
 
     //風鈴と扇風機の
-    if((*aFan).fancircle_x - ((*this).bellx[0]) < 185.0 && (*this).bell_flag == 0){
+    if((*aFan).fancircle_x - ((*this).bellx[0]) < FanBellFaceToFaceDistance && (*this).bell_flag == 0){
+        puts("fafa");
         if((*aFan).red_button_flag == 0){
             //weak
             if ((*aFan).add == 4) {
                 (*this).move = 10;
+                (*aFan).fanFaceFlag = 1;
             }
             //middle
             else if((*aFan).add == 8){
                 (*this).move = 20;
+                (*aFan).fanFaceFlag = 1;
             }
             //strong
             else if((*aFan).add == 12){
                 (*this).move = 30;
+                (*aFan).fanFaceFlag = 1;
             }
         }
+        //風鈴の方を向いていて、stopボタンが押された時。
         else if((*aFan).red_button_flag == 1){
             (*this).bell_flag = 1;
             (*this).move = 0;
+            (*aFan).fanFaceFlag = 0;
         }
         //風鈴を動かす。
         (*this).wide_bell_Draw(this, wide_bell_layerid);
     }
-    else if((*aFan).fancircle_x - ((*this).bellx[0]) >= 185.0 && (*aFan).fan_face_flag == 1 ){
+    else if((*aFan).fancircle_x - ((*this).bellx[0]) >= FanBellFaceToFaceDistance && (*aFan).fan_face_flag == 1 ){
         (*this).move = 0;
+        (*aFan).fanFaceFlag = 0;
         //風鈴を動かす。
         (*this).wide_bell_Draw(this, wide_bell_layerid);
+        puts("no");
+
+    }
+    else{
+        (*this).bell_flag = 0;
     }
 
     return;

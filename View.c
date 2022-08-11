@@ -11,6 +11,11 @@ View* newView(Controller* aController, Model* aModel){
 	aPoint = (Point*)malloc(sizeof(Point));
 	if (aPoint == NULL) exit(EXIT_FAILURE);
 
+	Fan* aFan = NULL;
+	aFan = (Fan*)malloc(sizeof(Fan));
+	if (aFan == NULL) exit(EXIT_FAILURE);
+
+	(*this).fan = aFan;
 	(*this).controller = aController;
 	(*this).model = aModel;
 	(*this).point = aPoint;
@@ -51,6 +56,9 @@ void processJob(View* this, Fan* aFan, Bell* aBell){
 	//風鈴の制御
 	(*aBell).move_bell(aBell, aFan, (*this).wide_bell_layerid);
 
+	//音
+	(*aModel).onSoundDate(aModel, this);
+
 	return;
 }
 
@@ -62,6 +70,11 @@ Fan* createFan(View* this){
 
 	//window表示
 	(*this).windowid = HgWOpen(300, 100, WINDOWSIZEx, WINDOWSIZEy);
+	//HgWSetColor((*this).windowid, HG_BLUE);
+	//HgWSetPaintColor((*this).windowid);
+	int anImage = HgImageLoad("./images/enngawa-illust.png");
+	HgImagePut(WINDOWSIZEx/2, WINDOWSIZEy/2, anImage, 2.0, 0.0);
+	
 	HgWSetTitle((*this).windowid,"Fan Animation");
 	
     //羽のレイヤ
@@ -84,6 +97,9 @@ Fan* createFan(View* this){
     //fanの頭の部分(網)の描写
     (*aFan).fan_cover(aFan, (*this).fancoverlayerid);
 
+	
+	(*this).fan = aFan;
+
 	return aFan;
 }
 
@@ -97,6 +113,9 @@ Bell* createBell(View* this){
     //風鈴の描写
     (*aBell).wide_bell_Draw(aBell, (*this).wide_bell_layerid);
 
+	(*this).bell = aBell;
+
+	
 	return aBell;
 }
 

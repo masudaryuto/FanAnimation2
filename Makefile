@@ -15,7 +15,8 @@ CCFLAGS	= $(shell \
 CCTEMPS	= *.o *.s *.i *.bc
 REPORTS	= ClangStaticAnalyzerReports
 CHECKER	= scan-build --use-analyzer=`which $(CC)` --view -o $(REPORTS)
-
+SOUNDSFILE = ./Sounds
+IMAGESFILE = ./images
 MODULES	= \
 	$(PROGRAM) \
 	Model \
@@ -52,7 +53,9 @@ test: $(TARGET)
 
 install: $(TARGET)
 	@if [ ! -e $(INSTDIR) ] ; then echo "mkdir $(INSTDIR)" ; mkdir $(INSTDIR) ; fi
-	cp -p $(TARGET) $(INSTDIR)
+	cp -p $(TARGET) $(INSTDIR);
+	cp -r $(SOUNDSFILE) $(INSTDIR);
+	cp -r $(IMAGESFILE) $(INSTDIR)
 
 open: install
 	open $(PROGRAM).app
