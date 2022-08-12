@@ -56,8 +56,12 @@
   <p>また、「FanAnimation.app」が存在しない場合、FanAnimationディレクトリにおいて、make installを実行してみる。</p>
   
   <p>以下がインターフェースと実行結果である</p>
-  <img width="200" alt="plan" src="https://user-images.githubusercontent.com/68851544/184319089-afcceffb-568f-444d-bf78-50a695b3860a.png">
-  <img width="200" alt="plan" src="https://user-images.githubusercontent.com/68851544/184319113-48a9c32c-3498-4b0f-bc37-c58735f676d0.png">
+  <table>
+    <ul>
+      <li><img width="200" alt="plan" src="https://user-images.githubusercontent.com/68851544/184319089-afcceffb-568f-444d-bf78-50a695b3860a.png"></li>
+      <li><img width="200" alt="plan" src="https://user-images.githubusercontent.com/68851544/184319113-48a9c32c-3498-4b0f-bc37-c58735f676d0.png"></li>
+    </ul>
+  </table>
 </div>
 
 # LISENCE
