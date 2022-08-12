@@ -10,3 +10,5 @@
 
 <img width="500" alt="plan" src="https://user-images.githubusercontent.com/68851544/183114307-7f882de0-f808-441f-aecc-423e1805dcf7.png">
 
+<h2>詳細設計</h2>
+<img width="500" alt="plan" src="https://user-images.githubusercontent.com/68851544/184306296-30e4f934-d208-4c3f-a5ac-067abebd52a7.png">
