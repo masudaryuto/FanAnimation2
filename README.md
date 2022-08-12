@@ -58,8 +58,8 @@
   <p>以下がインターフェースと実行結果である</p>
   <table>
     <ul>
-      <li><img width="200" alt="plan" src="https://user-images.githubusercontent.com/68851544/184319089-afcceffb-568f-444d-bf78-50a695b3860a.png"></li>
-      <li><img width="200" alt="plan" src="https://user-images.githubusercontent.com/68851544/184319113-48a9c32c-3498-4b0f-bc37-c58735f676d0.png"></li>
+      <li><img width="600" alt="plan" src="https://user-images.githubusercontent.com/68851544/184319089-afcceffb-568f-444d-bf78-50a695b3860a.png"></li>
+      <li><img width="600" alt="plan" src="https://user-images.githubusercontent.com/68851544/184319113-48a9c32c-3498-4b0f-bc37-c58735f676d0.png"></li>
     </ul>
   </table>
 </div>
