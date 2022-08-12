@@ -67,7 +67,6 @@
         <li>扇風機とボタンの音：https://otologic.jp/free/se/cooling-heating01.html#google_vignette</li>
         <li>背景画：https://chicodeza.com/freeitems/enngawa-illust.html</li>
       </ul>
-      
     </ul>
 
   </table>
