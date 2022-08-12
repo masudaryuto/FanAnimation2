@@ -36,10 +36,11 @@
 
 <h2>開発実績</h2>
 <div><p>作成した言語は、C言語である。そして、「HandyGraphics」というライブラリを利用して簡単な扇風機アニメーションを作成した。</p>
-＜参考文献＞Handy Graphicユーザーズガイド、http://www7a.biglobe.ne.jp/~ogihara/Hg/products/guide0.64.pdf</div>
-
 <div>
-  
+  <img width="500" alt="plan" src="https://user-images.githubusercontent.com/68851544/183114307-7f882de0-f808-441f-aecc-423e1805dcf7.png">
+  <p>計画通りに、アプリケーションの作成を行うことができた。</p>
+  <p>1回生の時に作成した物であったため、改良するだけで済んだからであろう。</p>
+  <p>大きな、バグは発生しないが、単体テストをこれから行なっていく必要があり、まだできていないため、品質保証としてはダメである。</p>
 </div>
 
 <h2>プログラム</h2>
@@ -55,3 +56,20 @@
   <p>また、「FanAnimation.app」が存在しない場合、FanAnimationディレクトリにおいて、make installを実行してみる。</p>
 </div>
 
+# LISENCE
+
+# 参考文献
+  <table>
+    <ul>
+      <li>Handy Graphicユーザーズガイド、http://www7a.biglobe.ne.jp/~ogihara/Hg/products/guide0.64.pdf</li>
+      <ul>音楽と動画、背景画(引用)
+        <li>夏の音：https://www.youtube.com/watch?v=C3rnW2EW788&t=52s</li>
+        <li>扇風機とボタンの音：https://otologic.jp/free/se/cooling-heating01.html#google_vignette</li>
+        <li>背景画：https://chicodeza.com/freeitems/enngawa-illust.html</li>
+      </ul>
+      
+    </ul>
+
+  </table>
+
+  
