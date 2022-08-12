@@ -44,7 +44,7 @@
 <h2>マニュアル</h2>
 <div>
   <p>最初に実行にあたり、「HandyGraphics」を導入しなければ、実行しない。実行したら、macOSの場合、Users/Applicationsにダウンロードした「HgDisplayer.app」を入れる。</p>
-  <p>ダウンロードページ<a href="http://www.cc.kyoto-su.ac.jp/~ogihara/Hg/products/HandyGraphic0.83.dmg.zip"></a><p>
+  <p>ダウンロードページ<a href="http://www.cc.kyoto-su.ac.jp/~ogihara/Hg/products/HandyGraphic0.83.dmg.zip">ここ</a><p>
   <p>参考：http://www.cc.kyoto-su.ac.jp/~ogihara/Hg/</p>
   <br>
   <p>FanAnimation.appをダブルクリックまたは、ターミナル(bash,zsh)において「open FanAnimation.app」で起動する。</p>
