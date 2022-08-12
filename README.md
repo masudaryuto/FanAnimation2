@@ -57,6 +57,8 @@
 </div>
 
 # LISENCE
+  <p>作者：masudaryuto(Created:2022/08/12(Fri))</p>
+  <p>許可特になし</p>
 
 # 参考文献
   <table>
