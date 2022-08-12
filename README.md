@@ -55,7 +55,7 @@
   <p>起動しない場合、ターミナルにおいて、「xattr -r FanAnimation.app」として、拡張属性を外して実行してみる。</p>
   <p>また、「FanAnimation.app」が存在しない場合、FanAnimationディレクトリにおいて、make installを実行してみる。</p>
   
-  <p>以下がインターフェースと実行結果である</p>
+  <p>以下がインターフェースと実行結果である。</p>
   <table>
     <ul>
       <li><img width="600" alt="plan" src="https://user-images.githubusercontent.com/68851544/184319089-afcceffb-568f-444d-bf78-50a695b3860a.png"></li>
