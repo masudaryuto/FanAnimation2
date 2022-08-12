@@ -58,13 +58,13 @@
 
 # LISENCE
   <p>作者：masudaryuto(Created:2022/08/12(Fri))</p>
-  <p>許可特になし</p>
+  <p>許可：特になし</p>
 
 # 参考文献
   <table>
     <ul>
       <li>Handy Graphicユーザーズガイド、http://www7a.biglobe.ne.jp/~ogihara/Hg/products/guide0.64.pdf</li>
-      <ul>音楽と動画、背景画(引用)
+      <ul>音楽と動画、背景画(引用)、フリー素材
         <li>夏の音：https://www.youtube.com/watch?v=C3rnW2EW788&t=52s</li>
         <li>扇風機とボタンの音：https://otologic.jp/free/se/cooling-heating01.html#google_vignette</li>
         <li>背景画：https://chicodeza.com/freeitems/enngawa-illust.html</li>
