@@ -38,14 +38,17 @@
 <div><p>作成した言語は、C言語である。そして、「HandyGraphics」というライブラリを利用して簡単な扇風機アニメーションを作成した。</p>
 ＜参考文献＞Handy Graphicユーザーズガイド、http://www7a.biglobe.ne.jp/~ogihara/Hg/products/guide0.64.pdf</div>
 
+<div>
+  
+</div>
+
 <h2>プログラム</h2>
 <p>コードは、上記のソースコードである。</p>
 
 <h2>マニュアル</h2>
 <div>
   <p>最初に実行にあたり、「HandyGraphics」を導入しなければ、実行しない。実行したら、macOSの場合、Users/Applicationsにダウンロードした「HgDisplayer.app」を入れる。</p>
-  <p>ダウンロードページ：http://www.cc.kyoto-su.ac.jp/~ogihara/Hg/products/HandyGraphic0.83.dmg.zip<p>
-  <p>参考：http://www.cc.kyoto-su.ac.jp/~ogihara/Hg/</p>
+  <p>ダウンロードページ：http://www.cc.kyoto-su.ac.jp/~ogihara/Hg/</p>
   <br>
   <p>FanAnimation.appをダブルクリックまたは、ターミナル(bash,zsh)において「open FanAnimation.app」で起動する。</p>
   <p>起動しない場合、ターミナルにおいて、「xattr -r FanAnimation.app」として、拡張属性を外して実行してみる。</p>
