@@ -19,13 +19,20 @@
 
 <h2>テスト結果</h2>
 <p>MacBook Air(Retina,13-inch,2019)</p>
-<pre>Processor: Intel Core i5 1.6GHz dual-core
-Retina display
-Memory: 8GB 2133MHz LPDDR3
-Graphics: Intel UHD Graphics 617
-Internal Solid State Drive: 256GB PCIe-based SSD
-Wireless 802.11ac Wi-Fi wireless networking; IEEE 802.11a/b/g/n compatible
-Bluetooth 4.2 wireless technology</pre>
+<table>
+  <ul>
+  <img width="200" alt="plan" src="https://user-images.githubusercontent.com/68851544/184308066-fb9031d8-16ba-48ae-b631-5f44c8e4efbc.jpg">
+  </ul>
+  <ul>
+    <li>Processor: Intel Core i5 1.6GHz dual-core</li>
+    <li>Retina display</li>
+    <li>Memory: 8GB 2133MHz LPDDR3</li>
+    <li>Graphics: Intel UHD Graphics 617</li>
+    <li>Internal Solid State Drive: 256GB PCIe-based SSD</li>
+    <li>Wireless 802.11ac Wi-Fi wireless networking; IEEE 802.11a/b/g/n compatible</li>
+    <li>Bluetooth 4.2 wireless technology</li>
+  </ul>
+</table>
 
 <h2>開発実績</h2>
 <div><p>作成した言語は、C言語である。そして、「HgDisplayer.app」というライブラリを利用して簡単な扇風機アニメーションを作成した。</p>
